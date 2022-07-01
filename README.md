@@ -4,5 +4,11 @@ This app is basically a TODO app which helps you track your activities. It is al
 # 👨‍💻 Stack
 * Flutter & Dart for logic and visual representation;
 * Firebase Firestore and Firebase Authentication as a backend.
+
+# 📙 Supported languages
+* 🇷🇺 Russian
+* 🇺🇸 English
+* More to come in the future
+
 # 📸 Screenshots
 # 🎥 Video
