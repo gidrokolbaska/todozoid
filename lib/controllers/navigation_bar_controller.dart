@@ -12,7 +12,11 @@ class NavigationBarController extends GetxController {
 
   String get title => appbarTitles[selectedIndex.value];
 
-  List<Widget> pageList = [TasksScreen(), DashboardScreen(), ListsScreen()];
+  List<Widget> pageList = [
+    TasksScreen(),
+    DashboardScreen(),
+    const ListsScreen()
+  ];
 
   changePage(int index) {
     if (selectedIndex.value != index) {

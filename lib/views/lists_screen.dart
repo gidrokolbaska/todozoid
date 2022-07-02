@@ -203,7 +203,7 @@ class ListsScreenElement extends StatelessWidget {
                 : Constants.kWhiteBgColor,
             title: Text(
               'delete'.tr,
-              style: TextStyle(color: Colors.redAccent),
+              style: const TextStyle(color: Colors.redAccent),
             ),
             trailingIcon: const Icon(
               CustomIcons.trashCan,
