@@ -62,7 +62,7 @@ class NotificationsController extends GetxController {
           NotificationDetails(
             android: AndroidNotificationDetails(
               '$id',
-              'Tasks reminders',
+              'taskReminder'.tr,
               channelDescription: 'Task reminders notification channel',
               colorized: true,
               largeIcon: const DrawableResourceAndroidBitmap('ic_launcher'),

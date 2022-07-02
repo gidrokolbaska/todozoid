@@ -66,6 +66,7 @@ class MyLocalizations extends Translations {
           'signOut': 'Sign out',
           'categoryName': 'Category name',
           'newItem': 'New item',
+          'taskReminder': 'Task reminder'
         },
         'ru_RU': {
           'welcome':
@@ -131,6 +132,7 @@ class MyLocalizations extends Translations {
           'signOut': 'Выйти',
           'categoryName': 'Наименование категории',
           'newItem': 'Новый элемент',
+          'taskReminder': 'Напоминание о задаче'
         }
       };
 }
