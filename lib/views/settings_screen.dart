@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutterfire_ui/auth.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 import 'package:todozoid2/consts/theme_service.dart';
