@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">75536888095-evs42lptg1bj980rkmpic3sc2llij6g0.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">75536888095</string>
+    <string name="google_api_key" translatable="false">AIzaSyDSQLq3o5P3qLTjkrmj5sferhwrL7S12Is</string>
+    <string name="google_app_id" translatable="false">1:75536888095:android:177dcafed1f59c7801802a</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDSQLq3o5P3qLTjkrmj5sferhwrL7S12Is</string>
+    <string name="google_storage_bucket" translatable="false">todozoid.appspot.com</string>
+    <string name="project_id" translatable="false">todozoid</string>
+</resources>

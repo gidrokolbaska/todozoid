@@ -1,0 +1,436 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.todozoid2"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="31" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/debug/AndroidManifest.xml:6:5-66
+14-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/debug/AndroidManifest.xml:6:22-64
+15    <uses-permission android:name="android.permission.VIBRATE" />
+15-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/main/AndroidManifest.xml:35:5-65
+15-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/main/AndroidManifest.xml:35:22-63
+16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+16-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/main/AndroidManifest.xml:36:5-79
+16-->/Users/gidrokolbaska/Developer/todozoid updated 23042022/android/app/src/main/AndroidManifest.xml:36:22-76
+17    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+17-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-81
+17-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-78
+18    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+18-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-81
+18-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:9:22-78
+19    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+19-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-79
+19-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:10:22-76
+20
+21    <queries>
+21-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-11:15
+22        <intent>
+22-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-10:18
+23            <action android:name="android.support.customtabs.action.CustomTabsService" />
+23-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-90
+23-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:9:21-87
+24        </intent>
+25    </queries>
+26
+27    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+27-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:28:5-79
+27-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:28:22-76
+28    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+28-->[com.android.installreferrer:installreferrer:1.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/1c3a76bee31629f4a1ccba604b20fc04/jetified-installreferrer-1.0/AndroidManifest.xml:9:5-110
+28-->[com.android.installreferrer:installreferrer:1.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/1c3a76bee31629f4a1ccba604b20fc04/jetified-installreferrer-1.0/AndroidManifest.xml:9:22-107
+29
+30    <application
+31        android:name="android.app.Application"
+32        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+32-->[androidx.core:core:1.7.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/5094083c676fcfe7e274d3652c07aa4c/core-1.7.0/AndroidManifest.xml:24:18-86
+33        android:debuggable="true"
+34        android:icon="@mipmap/ic_launcher"
+35        android:label="Todozoid"
+36        android:supportsRtl="true" >
+36-->[com.facebook.android:facebook-login:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/5672c321338b65aa162777163047a14e/jetified-facebook-login-13.2.0/AndroidManifest.xml:28:18-44
+37        <activity
+38            android:name="com.example.todozoid2.MainActivity"
+39            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+40            android:exported="true"
+41            android:hardwareAccelerated="true"
+42            android:launchMode="singleTop"
+43            android:theme="@style/LaunchTheme"
+44            android:windowSoftInputMode="adjustResize" >
+45
+46            <!--
+47                 Specifies an Android theme to apply to this Activity as soon as
+48                 the Android process has started. This theme is visible to the user
+49                 while the Flutter UI initializes. After that, this theme continues
+50                 to determine the Window background behind the Flutter UI.
+51            -->
+52            <meta-data
+53                android:name="io.flutter.embedding.android.NormalTheme"
+54                android:resource="@style/NormalTheme" />
+55
+56            <intent-filter>
+57                <action android:name="android.intent.action.MAIN" />
+58
+59                <category android:name="android.intent.category.LAUNCHER" />
+60            </intent-filter>
+61        </activity>
+62        <!--
+63             Don't delete the meta-data below.
+64             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+65        -->
+66        <meta-data
+67            android:name="flutterEmbedding"
+68            android:value="2" />
+69
+70        <service
+70-->[:firebase_database] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+71            android:name="com.google.firebase.components.ComponentDiscoveryService"
+71-->[:firebase_database] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
+72            android:directBootAware="true"
+72-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:35:13-43
+73            android:exported="false" >
+73-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:66:13-37
+74            <meta-data
+74-->[:firebase_database] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+75                android:name="com.google.firebase.components:io.flutter.plugins.firebase.database.FlutterFirebaseAppRegistrar"
+75-->[:firebase_database] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-127
+76                android:value="com.google.firebase.components.ComponentRegistrar" />
+76-->[:firebase_database] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+77            <meta-data
+77-->[:cloud_firestore] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+78                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+78-->[:cloud_firestore] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
+79                android:value="com.google.firebase.components.ComponentRegistrar" />
+79-->[:cloud_firestore] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+80            <meta-data
+80-->[:firebase_dynamic_links] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_dynamic_links/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-13:85
+81                android:name="com.google.firebase.components:io.flutter.plugins.firebase.dynamiclinks.FlutterFirebaseAppRegistrar"
+81-->[:firebase_dynamic_links] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_dynamic_links/intermediates/library_manifest/debug/AndroidManifest.xml:12:17-131
+82                android:value="com.google.firebase.components.ComponentRegistrar" />
+82-->[:firebase_dynamic_links] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_dynamic_links/intermediates/library_manifest/debug/AndroidManifest.xml:13:17-82
+83            <meta-data
+83-->[:firebase_auth] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+84                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+84-->[:firebase_auth] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+85                android:value="com.google.firebase.components.ComponentRegistrar" />
+85-->[:firebase_auth] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+86            <meta-data
+86-->[:firebase_core] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+87                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+87-->[:firebase_core] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+88                android:value="com.google.firebase.components.ComponentRegistrar" />
+88-->[:firebase_core] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+89            <meta-data
+89-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:67:13-69:85
+90                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+90-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:68:17-109
+91                android:value="com.google.firebase.components.ComponentRegistrar" />
+91-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:69:17-82
+92            <meta-data
+92-->[com.google.firebase:firebase-firestore:24.1.2] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/d4a550f742fb8c5169f6dd7a3e8f4313/jetified-firebase-firestore-24.1.2/AndroidManifest.xml:20:13-22:85
+93                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+93-->[com.google.firebase:firebase-firestore:24.1.2] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/d4a550f742fb8c5169f6dd7a3e8f4313/jetified-firebase-firestore-24.1.2/AndroidManifest.xml:21:17-111
+94                android:value="com.google.firebase.components.ComponentRegistrar" />
+94-->[com.google.firebase:firebase-firestore:24.1.2] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/d4a550f742fb8c5169f6dd7a3e8f4313/jetified-firebase-firestore-24.1.2/AndroidManifest.xml:22:17-82
+95            <meta-data
+95-->[com.google.firebase:firebase-dynamic-links:21.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/bb317b613cd8b8cea43086a5a7c1166a/jetified-firebase-dynamic-links-21.0.1/AndroidManifest.xml:27:13-29:85
+96                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
+96-->[com.google.firebase:firebase-dynamic-links:21.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/bb317b613cd8b8cea43086a5a7c1166a/jetified-firebase-dynamic-links-21.0.1/AndroidManifest.xml:28:17-133
+97                android:value="com.google.firebase.components.ComponentRegistrar" />
+97-->[com.google.firebase:firebase-dynamic-links:21.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/bb317b613cd8b8cea43086a5a7c1166a/jetified-firebase-dynamic-links-21.0.1/AndroidManifest.xml:29:17-82
+98            <meta-data
+98-->[com.google.firebase:firebase-database:20.0.5] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/ce489dda481c9e83dd1039a9df77c42e/jetified-firebase-database-20.0.5/AndroidManifest.xml:32:13-34:85
+99                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+99-->[com.google.firebase:firebase-database:20.0.5] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/ce489dda481c9e83dd1039a9df77c42e/jetified-firebase-database-20.0.5/AndroidManifest.xml:33:17-109
+100                android:value="com.google.firebase.components.ComponentRegistrar" />
+100-->[com.google.firebase:firebase-database:20.0.5] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/ce489dda481c9e83dd1039a9df77c42e/jetified-firebase-database-20.0.5/AndroidManifest.xml:34:17-82
+101        </service>
+102
+103        <receiver
+103-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:13:9-15:40
+104            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+104-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-97
+105            android:exported="false" />
+105-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-37
+106        <receiver
+106-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-25:20
+107            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+107-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-101
+108            android:exported="false" >
+108-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-37
+109            <intent-filter>
+109-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-24:29
+110                <action android:name="android.intent.action.BOOT_COMPLETED" />
+110-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:20:17-79
+110-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:20:25-76
+111                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+111-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:21:17-84
+111-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:21:25-81
+112                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+112-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:22:17-82
+112-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:22:25-79
+113                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+113-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:23:17-82
+113-->[:flutter_local_notifications] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:23:25-79
+114            </intent-filter>
+115        </receiver>
+116
+117        <activity
+117-->[:url_launcher_android] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+118            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+118-->[:url_launcher_android] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+119            android:exported="false"
+119-->[:url_launcher_android] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+120            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+120-->[:url_launcher_android] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/url_launcher_android/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+121        <activity android:name="com.maru.twitter_login.chrome_custom_tabs.ChromeCustomTabsActivity" />
+121-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:14:9-103
+121-->[:twitter_login] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/twitter_login/intermediates/library_manifest/debug/AndroidManifest.xml:14:19-100
+122
+123        <provider
+123-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
+124            android:name="dev.fluttercommunity.plus.share.ShareFileProvider"
+124-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-77
+125            android:authorities="com.example.todozoid2.flutter.share_provider"
+125-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-74
+126            android:exported="false"
+126-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
+127            android:grantUriPermissions="true" >
+127-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
+128            <meta-data
+128-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:68
+129                android:name="android.support.FILE_PROVIDER_PATHS"
+129-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
+130                android:resource="@xml/flutter_share_file_paths" />
+130-->[:share_plus] /Users/gidrokolbaska/Developer/todozoid updated 23042022/build/share_plus/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-65
+131        </provider>
+132
+133        <uses-library
+133-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+134            android:name="androidx.window.extensions"
+134-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+135            android:required="false" />
+135-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+136        <uses-library
+136-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+137            android:name="androidx.window.sidecar"
+137-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+138            android:required="false" />
+138-->[androidx.window:window:1.0.0-beta04] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/39ec363904be585fe708d0f111bfee7a/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+139
+140        <activity
+140-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:27:9-44:20
+141            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+141-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:28:13-80
+142            android:excludeFromRecents="true"
+142-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:29:13-46
+143            android:exported="true"
+143-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:30:13-36
+144            android:launchMode="singleTask"
+144-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:31:13-44
+145            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+145-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:32:13-72
+146            <intent-filter>
+146-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:33:13-43:29
+147                <action android:name="android.intent.action.VIEW" />
+147-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:17-69
+147-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:25-66
+148
+149                <category android:name="android.intent.category.DEFAULT" />
+149-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:17-76
+149-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:27-73
+150                <category android:name="android.intent.category.BROWSABLE" />
+150-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:17-78
+150-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:27-75
+151
+152                <data
+152-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:39:17-42:51
+153                    android:host="firebase.auth"
+153-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:40:21-49
+154                    android:path="/"
+154-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:41:21-37
+155                    android:scheme="genericidp" />
+155-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:42:21-48
+156            </intent-filter>
+157        </activity>
+158        <activity
+158-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:45:9-62:20
+159            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+159-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:46:13-79
+160            android:excludeFromRecents="true"
+160-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:47:13-46
+161            android:exported="true"
+161-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:48:13-36
+162            android:launchMode="singleTask"
+162-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:49:13-44
+163            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+163-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:50:13-72
+164            <intent-filter>
+164-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:51:13-61:29
+165                <action android:name="android.intent.action.VIEW" />
+165-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:17-69
+165-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:25-66
+166
+167                <category android:name="android.intent.category.DEFAULT" />
+167-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:17-76
+167-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:27-73
+168                <category android:name="android.intent.category.BROWSABLE" />
+168-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:17-78
+168-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:27-75
+169
+170                <data
+170-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:39:17-42:51
+171                    android:host="firebase.auth"
+171-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:40:21-49
+172                    android:path="/"
+172-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:41:21-37
+173                    android:scheme="recaptcha" />
+173-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:42:21-48
+174            </intent-filter>
+175        </activity>
+176        <activity
+176-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:30:9-33:66
+177            android:name="com.facebook.FacebookActivity"
+177-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:31:13-57
+178            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+178-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:32:13-96
+179            android:theme="@style/com_facebook_activity_theme" />
+179-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:33:13-63
+180        <activity android:name="com.facebook.CustomTabMainActivity" />
+180-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:34:9-71
+180-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:34:19-68
+181        <activity
+181-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:35:9-49:20
+182            android:name="com.facebook.CustomTabActivity"
+182-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:36:13-58
+183            android:exported="true" >
+183-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:37:13-36
+184            <intent-filter>
+184-->[com.facebook.android:facebook-common:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/47b3271852989f161d40bbd352335837/jetified-facebook-common-13.2.0/AndroidManifest.xml:39:13-48:29
+185                <action android:name="android.intent.action.VIEW" />
+185-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:17-69
+185-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:34:25-66
+186
+187                <category android:name="android.intent.category.DEFAULT" />
+187-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:17-76
+187-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:36:27-73
+188                <category android:name="android.intent.category.BROWSABLE" />
+188-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:17-78
+188-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:37:27-75
+189
+190                <data
+190-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:39:17-42:51
+191                    android:host="cct.com.example.todozoid2"
+191-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:40:21-49
+192                    android:scheme="fbconnect" />
+192-->[com.google.firebase:firebase-auth:21.0.3] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c7b09396c3dbc9565353453f4dec8932/jetified-firebase-auth-21.0.3/AndroidManifest.xml:42:21-48
+193            </intent-filter>
+194        </activity>
+195
+196        <provider
+196-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:26:9-31:39
+197            android:name="com.google.firebase.provider.FirebaseInitProvider"
+197-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:27:13-77
+198            android:authorities="com.example.todozoid2.firebaseinitprovider"
+198-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:28:13-72
+199            android:directBootAware="true"
+199-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:29:13-43
+200            android:exported="false"
+200-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:30:13-37
+201            android:initOrder="100" />
+201-->[com.google.firebase:firebase-common:20.1.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/6197422a93e3d41308eb4d1d2b092461/jetified-firebase-common-20.1.1/AndroidManifest.xml:31:13-36
+202        <!--
+203         The initialization ContentProvider will call FacebookSdk.sdkInitialize automatically
+204         with the application context. This config is merged in with the host app's manifest,
+205         but there can only be one provider with the same authority activated at any given
+206         point; so if the end user has two or more different apps that use Facebook SDK, only the
+207         first one will be able to use the provider. To work around this problem, we use the
+208         following placeholder in the authority to identify each host application as if it was
+209         a completely different provider.
+210        -->
+211        <provider
+211-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:41:9-44:40
+212            android:name="com.facebook.internal.FacebookInitProvider"
+212-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:42:13-70
+213            android:authorities="com.example.todozoid2.FacebookInitProvider"
+213-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:43:13-72
+214            android:exported="false" />
+214-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:44:13-37
+215
+216        <receiver
+216-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:46:9-52:20
+217            android:name="com.facebook.CurrentAccessTokenExpirationBroadcastReceiver"
+217-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:47:13-86
+218            android:exported="false" >
+218-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:48:13-37
+219            <intent-filter>
+219-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:49:13-51:29
+220                <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED" />
+220-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:50:17-95
+220-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:50:25-92
+221            </intent-filter>
+222        </receiver>
+223        <receiver
+223-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:53:9-59:20
+224            android:name="com.facebook.AuthenticationTokenManager$CurrentAuthenticationTokenChangedBroadcastReceiver"
+224-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:54:13-118
+225            android:exported="false" >
+225-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:55:13-37
+226            <intent-filter>
+226-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:56:13-58:29
+227                <action android:name="com.facebook.sdk.ACTION_CURRENT_AUTHENTICATION_TOKEN_CHANGED" />
+227-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:57:17-103
+227-->[com.facebook.android:facebook-core:13.2.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/c9e9f92f40903a09e214db720a6023db/jetified-facebook-core-13.2.0/AndroidManifest.xml:57:25-100
+228            </intent-filter>
+229        </receiver>
+230
+231        <activity
+231-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:23:9-27:75
+232            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+232-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:24:13-93
+233            android:excludeFromRecents="true"
+233-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:25:13-46
+234            android:exported="false"
+234-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:26:13-37
+235            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+235-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:27:13-72
+236        <!--
+237            Service handling Google Sign-In user revocation. For apps that do not integrate with
+238            Google Sign-In, this service will never be started.
+239        -->
+240        <service
+240-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:33:9-37:51
+241            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+241-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:34:13-89
+242            android:exported="true"
+242-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:35:13-36
+243            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+243-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:36:13-107
+244            android:visibleToInstantApps="true" />
+244-->[com.google.android.gms:play-services-auth:20.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/fc9f7f56e32c37b382c92ae165988952/jetified-play-services-auth-20.0.1/AndroidManifest.xml:37:13-48
+245
+246        <activity
+246-->[com.google.android.gms:play-services-base:18.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/66b4da009bd1e4ba7389f36859869486/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+247            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+247-->[com.google.android.gms:play-services-base:18.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/66b4da009bd1e4ba7389f36859869486/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+248            android:exported="false"
+248-->[com.google.android.gms:play-services-base:18.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/66b4da009bd1e4ba7389f36859869486/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+249            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+249-->[com.google.android.gms:play-services-base:18.0.1] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/66b4da009bd1e4ba7389f36859869486/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+250
+251        <meta-data
+251-->[com.google.android.gms:play-services-basement:18.0.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/300b621932f83f5409cb2d99186a86af/jetified-play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
+252            android:name="com.google.android.gms.version"
+252-->[com.google.android.gms:play-services-basement:18.0.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/300b621932f83f5409cb2d99186a86af/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
+253            android:value="@integer/google_play_services_version" />
+253-->[com.google.android.gms:play-services-basement:18.0.0] /Users/gidrokolbaska/.gradle/caches/transforms-2/files-2.1/300b621932f83f5409cb2d99186a86af/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
+254    </application>
+255
+256</manifest>
