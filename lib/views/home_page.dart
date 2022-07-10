@@ -39,7 +39,7 @@ class HomePageContainer extends StatelessWidget {
             navigationController: _navigationController,
             tasksController: tasksController,
           ),
-          leading: LeadingWidget(),
+          leading: const LeadingWidget(),
           elevation: 0,
         ),
         body: Obx(

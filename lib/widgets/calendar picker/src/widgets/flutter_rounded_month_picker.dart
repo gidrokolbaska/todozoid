@@ -94,11 +94,11 @@ class FlutterRoundedMonthPicker extends StatefulWidget {
   final OnTapDay? onTapDay;
 
   @override
-  _FlutterRoundedMonthPickerState createState() =>
-      _FlutterRoundedMonthPickerState();
+  FlutterRoundedMonthPickerState createState() =>
+      FlutterRoundedMonthPickerState();
 }
 
-class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker>
+class FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _chevronOpacityTween =
       Tween<double>(begin: 1.0, end: 0.0)

@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:75536888095:android:177dcafed1f59c7801802a",
+        "mobilesdk_app_id": "1:75536888095:android:02e374188084ac8701802a",
         "android_client_info": {
-          "package_name": "com.example.todozoid2"
+          "package_name": "com.gidrokolbaska.todozoid"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "75536888095-rop0hk91ifl0qs53hp0dnafb207vgir6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.todozoid2",
-            "certificate_hash": "009e1e7e306c091dbd38aeaa172c93aa5b66678b"
-          }
-        },
         {
           "client_id": "75536888095-evs42lptg1bj980rkmpic3sc2llij6g0.apps.googleusercontent.com",
           "client_type": 3
@@ -39,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "75536888095-6e984ivlrja2llq9h6h6tdu0a2kldag3.apps.googleusercontent.com",
+              "client_id": "75536888095-3mi9qiidoldkb69o1jl8as65rc5dd1qt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "co"
+                "bundle_id": "com.gidrokolbaska.todozoid"
               }
             }
           ]

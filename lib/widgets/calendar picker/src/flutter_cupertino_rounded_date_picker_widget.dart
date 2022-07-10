@@ -270,6 +270,7 @@ class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
   final String? fontFamily;
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() {
     // The `time` mode and `dateAndTime` mode of the picker share the time
     // columns, so they are placed together to one state.

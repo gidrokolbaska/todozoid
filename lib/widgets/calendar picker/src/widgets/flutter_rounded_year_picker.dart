@@ -65,11 +65,11 @@ class FlutterRoundedYearPicker extends StatefulWidget {
   final MaterialRoundedYearPickerStyle? style;
 
   @override
-  _FlutterRoundedYearPickerState createState() =>
-      _FlutterRoundedYearPickerState();
+  FlutterRoundedYearPickerState createState() =>
+      FlutterRoundedYearPickerState();
 }
 
-class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
+class FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
   late double _itemExtent;
   ScrollController? scrollController;
 

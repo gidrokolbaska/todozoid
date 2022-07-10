@@ -431,10 +431,8 @@ class ActiveTasks extends StatelessWidget {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    foregroundColor: Constants.kWhiteBgColor,
                     minimumSize: Size(100.w, 30.h),
-                    //shadowColor: Colors.transparent,
-                    // primary: Constants.kAccentColor,
-                    onPrimary: Constants.kWhiteBgColor,
                     //elevation: 0.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),

@@ -82,11 +82,11 @@ class FlutterRoundedDatePickerDialog extends StatefulWidget {
   final OnTapDay? onTapDay;
 
   @override
-  _FlutterRoundedDatePickerDialogState createState() =>
-      _FlutterRoundedDatePickerDialogState();
+  FlutterRoundedDatePickerDialogState createState() =>
+      FlutterRoundedDatePickerDialogState();
 }
 
-class _FlutterRoundedDatePickerDialogState
+class FlutterRoundedDatePickerDialogState
     extends State<FlutterRoundedDatePickerDialog> {
   @override
   void initState() {

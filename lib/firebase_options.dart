@@ -51,24 +51,24 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDSQLq3o5P3qLTjkrmj5sferhwrL7S12Is',
-    appId: '1:75536888095:android:177dcafed1f59c7801802a',
-    androidClientId:
-        '75536888095-evs42lptg1bj980rkmpic3sc2llij6g0.apps.googleusercontent.com',
+    appId: '1:75536888095:android:02e374188084ac8701802a',
     messagingSenderId: '75536888095',
     projectId: 'todozoid',
+    androidClientId:
+        '75536888095-evs42lptg1bj980rkmpic3sc2llij6g0.apps.googleusercontent.com',
     storageBucket: 'todozoid.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDz2uxI0XxbFeL4jzEV5DJlhifvwIa4c14',
-    appId: '1:75536888095:ios:768fc4dda7cf188c01802a',
+    appId: '1:75536888095:ios:aeba3129a980da3001802a',
     messagingSenderId: '75536888095',
     projectId: 'todozoid',
     storageBucket: 'todozoid.appspot.com',
     androidClientId:
-        '75536888095-rop0hk91ifl0qs53hp0dnafb207vgir6.apps.googleusercontent.com',
+        '75536888095-evs42lptg1bj980rkmpic3sc2llij6g0.apps.googleusercontent.com',
     iosClientId:
-        '75536888095-juec3pf3arp2rv1psat4h943adl43r5o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.todozoid2',
+        '75536888095-3mi9qiidoldkb69o1jl8as65rc5dd1qt.apps.googleusercontent.com',
+    iosBundleId: 'com.gidrokolbaska.todozoid',
   );
 }

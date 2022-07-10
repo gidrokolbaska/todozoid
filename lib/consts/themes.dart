@@ -38,8 +38,8 @@ class Themes {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: Constants.kDarkThemeAccentColor,
-        onPrimary: Constants.kWhiteBgColor,
+        foregroundColor: Constants.kWhiteBgColor,
+        backgroundColor: Constants.kDarkThemeAccentColor,
       ),
     ),
     textButtonTheme: TextButtonThemeData(
@@ -100,8 +100,8 @@ class Themes {
     brightness: Brightness.light,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: Constants.kAccentColor,
-        onPrimary: Constants.kLightGrayColor2,
+        foregroundColor: Constants.kLightGrayColor2,
+        backgroundColor: Constants.kAccentColor,
       ),
     ),
     textButtonTheme: TextButtonThemeData(

@@ -1,5 +1,3 @@
-library focused_menu;
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/modals.dart';
@@ -39,10 +37,10 @@ class FocusedMenuHolderNew extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FocusedMenuHolderNewState createState() => _FocusedMenuHolderNewState();
+  FocusedMenuHolderNewState createState() => FocusedMenuHolderNewState();
 }
 
-class _FocusedMenuHolderNewState extends State<FocusedMenuHolderNew> {
+class FocusedMenuHolderNewState extends State<FocusedMenuHolderNew> {
   GlobalKey containerKey = GlobalKey();
   Offset childOffset = const Offset(0, 0);
   Size? childSize;

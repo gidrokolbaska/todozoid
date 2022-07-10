@@ -1,5 +1,5 @@
 class ThaiDateUtils {
-  static const List<String> MONTH_FULL_TH = [
+  static const List<String> monthFullTH = [
     "มกราคม",
     "กุมภาพันธ์",
     "มีนาคม",
@@ -14,7 +14,7 @@ class ThaiDateUtils {
     "ธันวาคม",
   ];
 
-  static const List<String> MONTH_SHORT_TH = [
+  static const List<String> monthShortTH = [
     "ม.ค.",
     "ก.พ.",
     "มี.ค.",
@@ -30,10 +30,10 @@ class ThaiDateUtils {
   ];
 
   static getMonthNameShot(int month) {
-    return MONTH_SHORT_TH[month - 1];
+    return monthShortTH[month - 1];
   }
 
   static getMonthNameFull(int month) {
-    return MONTH_FULL_TH[month - 1];
+    return monthFullTH[month - 1];
   }
 }
