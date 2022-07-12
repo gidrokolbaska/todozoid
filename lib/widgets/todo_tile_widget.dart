@@ -28,7 +28,7 @@ import 'create_tast_modal.dart';
 import 'custom_fadeout_particle/src/fade_out_particle.dart';
 import 'custom_slidable_action.dart';
 
-class Item extends StatefulWidget {
+class Item extends StatelessWidget {
   const Item({
     Key? key,
     required this.todo,
@@ -50,13 +50,6 @@ class Item extends StatefulWidget {
   final QueryDocumentSnapshot<Todo> fireStoreData;
   final Category? firestoreCategoryData;
   final String? categoryReferenceID;
-
-  @override
-  State<Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<Item> {
-  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +81,11 @@ class _ItemState extends State<Item> {
               icon: Icons.format_list_bulleted_rounded,
               iconSize: 30,
               onPressed: (BuildContext context) async {
-                widget.categoriesController.isCategoryModalOpenedFromTasksScreen
-                    .value = true;
+                categoriesController
+                    .isCategoryModalOpenedFromTasksScreen.value = true;
                 await Get.bottomSheet(
                   CategoriesModalFit(
-                    queryData: widget.fireStoreData,
+                    queryData: fireStoreData,
                   ),
                   enableDrag: false,
                   isDismissible: false,
@@ -138,30 +131,21 @@ class _ItemState extends State<Item> {
                             actions: [
                               CupertinoActionSheetAction(
                                 onPressed: () async {
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isDateModalOpenedFromTasksScreen
                                       .value = true;
-                                  if (widget.fireStoreData.data().todoDate !=
-                                      null) {
-                                    widget.tasksController.dateSelected.value =
-                                        true;
+                                  if (fireStoreData.data().todoDate != null) {
+                                    tasksController.dateSelected.value = true;
                                   }
-                                  if (widget.fireStoreData.data().todoTime !=
-                                      null) {
-                                    widget.tasksController.timeSelected.value =
-                                        true;
-                                    widget.tasksController.time.value = widget
-                                        .fireStoreData
-                                        .data()
-                                        .todoTime!
-                                        .toDate();
+                                  if (fireStoreData.data().todoTime != null) {
+                                    tasksController.timeSelected.value = true;
+                                    tasksController.time.value =
+                                        fireStoreData.data().todoTime!.toDate();
                                   }
-                                  widget.tasksController.date.value =
+                                  tasksController.date.value =
                                       await showRoundedDatePicker(
                                     context: context,
-                                    initialDate:
-                                        widget.tasksController.date.value,
+                                    initialDate: tasksController.date.value,
                                     listDateDisabled: helpers.getDaysInBeteween(
                                         DateTime(DateTime.now().year,
                                             DateTime.now().month, 1),
@@ -184,9 +168,9 @@ class _ItemState extends State<Item> {
                                     textActionButton: "DELETE DATE",
                                     onTapActionButton: () {
                                       Navigator.of(context).pop(null);
-                                      widget.tasksController.dateSelected
-                                          .value = false;
-                                      widget.tasksController.date.value = null;
+                                      tasksController.dateSelected.value =
+                                          false;
+                                      tasksController.date.value = null;
                                     },
                                     theme: ThemeData(
                                       primaryColor: context.isDarkMode
@@ -337,117 +321,89 @@ class _ItemState extends State<Item> {
                                     ),
                                   );
 
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isDateModalOpenedFromTasksScreen
                                       .value = false;
                                   //Since we change only the date (without time) it would be logical to change the Date to tasksController.date.value + 23:59:59
                                   // because otherwise we take the current time and todo becomes instantly overdue
 
-                                  if (widget.tasksController.date.value !=
-                                          null &&
-                                      widget.tasksController.date.value!
-                                          .isToday) {
+                                  if (tasksController.date.value != null &&
+                                      tasksController.date.value!.isToday) {
                                     //TODO change custom hour, minute and blablabla to a variable that is the endOfTheDay which should be present in TasksController somewhere in the future
 
                                     int newHour = 23;
                                     int newMinute = 59;
                                     int newSecond = 59;
-                                    widget.tasksController.date.value = widget
-                                        .tasksController.date.value!
-                                        .toLocal();
-                                    widget.tasksController.date.value =
-                                        DateTime(
-                                            widget.tasksController.date.value!
-                                                .year,
-                                            widget.tasksController.date.value!
-                                                .month,
-                                            widget.tasksController.date.value!
-                                                .day,
-                                            newHour,
-                                            newMinute,
-                                            newSecond,
-                                            widget.tasksController.date.value!
-                                                .millisecond);
+                                    tasksController.date.value =
+                                        tasksController.date.value!.toLocal();
+                                    tasksController.date.value = DateTime(
+                                        tasksController.date.value!.year,
+                                        tasksController.date.value!.month,
+                                        tasksController.date.value!.day,
+                                        newHour,
+                                        newMinute,
+                                        newSecond,
+                                        tasksController
+                                            .date.value!.millisecond);
                                   }
                                   int? extractedID;
-                                  extractedID = await widget.databaseController
-                                      .updateTodo(
-                                    widget.fireStoreData,
+                                  extractedID =
+                                      await databaseController.updateTodo(
+                                    fireStoreData,
                                     {
-                                      'day':
-                                          widget.tasksController.date.value !=
-                                                  null
-                                              ? Timestamp.fromDate(widget
-                                                  .tasksController.date.value!)
-                                              : null,
+                                      'day': tasksController.date.value != null
+                                          ? Timestamp.fromDate(
+                                              tasksController.date.value!)
+                                          : null,
                                     },
                                   );
-                                  widget.notificationsController
+                                  notificationsController
                                       .cancelNotification(extractedID);
                                   //shchedule notification if date is selected and time is selected
-                                  if (widget.tasksController.dateSelected.value &&
-                                      widget.tasksController.date.value !=
-                                          null &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (tasksController.dateSelected.value &&
+                                      tasksController.date.value != null &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.date.value!.year,
-                                          widget.tasksController.date.value!
-                                              .month,
-                                          widget
-                                              .tasksController.date.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.date.value!.year,
+                                          tasksController.date.value!.month,
+                                          tasksController.date.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
                                   //schedule notofication if date is not selected and time is selected
-                                  if (!widget
-                                          .tasksController.dateSelected.value &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (!tasksController.dateSelected.value &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.time.value!.year,
-                                          widget.tasksController.time.value!
-                                              .month,
-                                          widget
-                                              .tasksController.time.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.time.value!.year,
+                                          tasksController.time.value!.month,
+                                          tasksController.time.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
-                                  widget.tasksController.date.value = null;
-                                  widget.tasksController.dateSelected.value =
-                                      false;
-                                  widget.tasksController.time.value = null;
-                                  widget.tasksController.timeSelected.value =
-                                      false;
+                                  tasksController.date.value = null;
+                                  tasksController.dateSelected.value = false;
+                                  tasksController.time.value = null;
+                                  tasksController.timeSelected.value = false;
 
                                   Get.back();
                                 },
@@ -455,24 +411,16 @@ class _ItemState extends State<Item> {
                               ),
                               CupertinoActionSheetAction(
                                 onPressed: () async {
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isTimeModalOpenedFromTasksScreen
                                       .value = true;
-                                  if (widget.fireStoreData.data().todoDate !=
-                                      null) {
-                                    widget.tasksController.dateSelected.value =
-                                        true;
-                                    widget.tasksController.date.value = widget
-                                        .fireStoreData
-                                        .data()
-                                        .todoDate!
-                                        .toDate();
+                                  if (fireStoreData.data().todoDate != null) {
+                                    tasksController.dateSelected.value = true;
+                                    tasksController.date.value =
+                                        fireStoreData.data().todoDate!.toDate();
                                   }
-                                  if (widget.fireStoreData.data().todoTime !=
-                                      null) {
-                                    widget.tasksController.timeSelected.value =
-                                        true;
+                                  if (fireStoreData.data().todoTime != null) {
+                                    tasksController.timeSelected.value = true;
                                   }
 
                                   await CupertinoRoundedDatePicker.show(
@@ -486,121 +434,94 @@ class _ItemState extends State<Item> {
                                         : Constants.kWhiteBgColor,
                                     use24hFormat: MediaQuery.of(context)
                                         .alwaysUse24HourFormat,
-                                    initialDate: widget.tasksController
+                                    initialDate: tasksController
                                                 .timeSelected.value &&
-                                            widget.tasksController.time.value !=
-                                                null
-                                        ? widget.tasksController.time.value
+                                            tasksController.time.value != null
+                                        ? tasksController.time.value
                                         : DateTime.now()
                                             .roundUp(DateTime.now()),
                                     initialDatePickerMode:
                                         CupertinoDatePickerMode.time,
                                     onDateTimeChanged: (selectedDateTime) {
-                                      widget.tasksController.time.value =
+                                      tasksController.time.value =
                                           selectedDateTime;
                                     },
                                   );
-                                  if (widget.tasksController.time.value !=
-                                      null) {
-                                    widget.tasksController.timeSelected.value =
-                                        true;
-                                    if (widget.tasksController.time.value!
+                                  if (tasksController.time.value != null) {
+                                    tasksController.timeSelected.value = true;
+                                    if (tasksController.time.value!
                                         .isBefore(DateTime.now())) {
-                                      widget.tasksController.time.value = widget
-                                          .tasksController.time.value!
-                                          .add(const Duration(days: 1));
-                                    } else if (widget
-                                        .tasksController.time.value!
+                                      tasksController.time.value =
+                                          tasksController.time.value!
+                                              .add(const Duration(days: 1));
+                                    } else if (tasksController.time.value!
                                         .isAfter(DateTime.now())) {
-                                      widget.tasksController.time.value =
-                                          DateTime(
-                                              DateTime.now().year,
-                                              DateTime.now().month,
-                                              DateTime.now().day,
-                                              widget.tasksController.time.value!
-                                                  .hour,
-                                              widget.tasksController.time.value!
-                                                  .minute);
+                                      tasksController.time.value = DateTime(
+                                          DateTime.now().year,
+                                          DateTime.now().month,
+                                          DateTime.now().day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute);
                                     }
                                   }
                                   int? extractedID;
-                                  extractedID = await widget.databaseController
-                                      .updateTodo(
-                                    widget.fireStoreData,
+                                  extractedID =
+                                      await databaseController.updateTodo(
+                                    fireStoreData,
                                     {
-                                      'time':
-                                          widget.tasksController.time.value !=
-                                                  null
-                                              ? Timestamp.fromDate(widget
-                                                  .tasksController.time.value!)
-                                              : null,
+                                      'time': tasksController.time.value != null
+                                          ? Timestamp.fromDate(
+                                              tasksController.time.value!)
+                                          : null,
                                     },
                                   );
-                                  widget.notificationsController
+                                  notificationsController
                                       .cancelNotification(extractedID);
                                   //shchedule notification if date is selected and time is selected
-                                  if (widget.tasksController.dateSelected.value &&
-                                      widget.tasksController.date.value !=
-                                          null &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (tasksController.dateSelected.value &&
+                                      tasksController.date.value != null &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.date.value!.year,
-                                          widget.tasksController.date.value!
-                                              .month,
-                                          widget
-                                              .tasksController.date.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.date.value!.year,
+                                          tasksController.date.value!.month,
+                                          tasksController.date.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
                                   //schedule notofication if date is not selected and time is selected
-                                  if (!widget
-                                          .tasksController.dateSelected.value &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (!tasksController.dateSelected.value &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.time.value!.year,
-                                          widget.tasksController.time.value!
-                                              .month,
-                                          widget
-                                              .tasksController.time.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.time.value!.year,
+                                          tasksController.time.value!.month,
+                                          tasksController.time.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
-                                  widget.tasksController.time.value = null;
-                                  widget.tasksController.timeSelected.value =
-                                      false;
-                                  widget.tasksController.date.value = null;
-                                  widget.tasksController.dateSelected.value =
-                                      false;
+                                  tasksController.time.value = null;
+                                  tasksController.timeSelected.value = false;
+                                  tasksController.date.value = null;
+                                  tasksController.dateSelected.value = false;
                                   Get.back();
                                 },
                                 child: Text('changeTime'.tr),
@@ -622,31 +543,22 @@ class _ItemState extends State<Item> {
                             children: [
                               SimpleDialogOption(
                                 onPressed: () async {
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isDateModalOpenedFromTasksScreen
                                       .value = true;
 
-                                  if (widget.fireStoreData.data().todoDate !=
-                                      null) {
-                                    widget.tasksController.dateSelected.value =
-                                        true;
+                                  if (fireStoreData.data().todoDate != null) {
+                                    tasksController.dateSelected.value = true;
                                   }
-                                  if (widget.fireStoreData.data().todoTime !=
-                                      null) {
-                                    widget.tasksController.timeSelected.value =
-                                        true;
-                                    widget.tasksController.time.value = widget
-                                        .fireStoreData
-                                        .data()
-                                        .todoTime!
-                                        .toDate();
+                                  if (fireStoreData.data().todoTime != null) {
+                                    tasksController.timeSelected.value = true;
+                                    tasksController.time.value =
+                                        fireStoreData.data().todoTime!.toDate();
                                   }
-                                  widget.tasksController.date.value =
+                                  tasksController.date.value =
                                       await showRoundedDatePicker(
                                     context: context,
-                                    initialDate:
-                                        widget.tasksController.date.value,
+                                    initialDate: tasksController.date.value,
                                     listDateDisabled: helpers.getDaysInBeteween(
                                         DateTime(DateTime.now().year,
                                             DateTime.now().month, 1),
@@ -669,9 +581,9 @@ class _ItemState extends State<Item> {
                                     textActionButton: "DELETE DATE",
                                     onTapActionButton: () {
                                       Navigator.of(context).pop(null);
-                                      widget.tasksController.dateSelected
-                                          .value = false;
-                                      widget.tasksController.date.value = null;
+                                      tasksController.dateSelected.value =
+                                          false;
+                                      tasksController.date.value = null;
                                     },
                                     theme: ThemeData(
                                       primaryColor: context.isDarkMode
@@ -825,117 +737,89 @@ class _ItemState extends State<Item> {
                                   // if (tasksController.date.value != null) {
                                   //   tasksController.dateSelected.value = true;
                                   // }
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isDateModalOpenedFromTasksScreen
                                       .value = false;
                                   //Since we change only the date (without time) it would be logical to change to Date to tasksController.date.value + 23:59:59
                                   // because otherwise we take the current time and todo becomes instantly overdue
 
-                                  if (widget.tasksController.date.value !=
-                                          null &&
-                                      widget.tasksController.date.value!
-                                          .isToday) {
+                                  if (tasksController.date.value != null &&
+                                      tasksController.date.value!.isToday) {
                                     //TODO change custom hour, minute and blablabla to a variable that is the endOfTheDay which should be present in TasksController somewhere in the future
 
                                     int newHour = 23;
                                     int newMinute = 59;
                                     int newSecond = 59;
-                                    widget.tasksController.date.value = widget
-                                        .tasksController.date.value!
-                                        .toLocal();
-                                    widget.tasksController.date.value =
-                                        DateTime(
-                                            widget.tasksController.date.value!
-                                                .year,
-                                            widget.tasksController.date.value!
-                                                .month,
-                                            widget.tasksController.date.value!
-                                                .day,
-                                            newHour,
-                                            newMinute,
-                                            newSecond,
-                                            widget.tasksController.date.value!
-                                                .millisecond);
+                                    tasksController.date.value =
+                                        tasksController.date.value!.toLocal();
+                                    tasksController.date.value = DateTime(
+                                        tasksController.date.value!.year,
+                                        tasksController.date.value!.month,
+                                        tasksController.date.value!.day,
+                                        newHour,
+                                        newMinute,
+                                        newSecond,
+                                        tasksController
+                                            .date.value!.millisecond);
                                   }
                                   int? extractedID;
-                                  extractedID = await widget.databaseController
-                                      .updateTodo(
-                                    widget.fireStoreData,
+                                  extractedID =
+                                      await databaseController.updateTodo(
+                                    fireStoreData,
                                     {
-                                      'day':
-                                          widget.tasksController.date.value !=
-                                                  null
-                                              ? Timestamp.fromDate(widget
-                                                  .tasksController.date.value!)
-                                              : null,
+                                      'day': tasksController.date.value != null
+                                          ? Timestamp.fromDate(
+                                              tasksController.date.value!)
+                                          : null,
                                     },
                                   );
-                                  widget.notificationsController
+                                  notificationsController
                                       .cancelNotification(extractedID);
                                   //shchedule notification if date is selected and time is selected
-                                  if (widget.tasksController.dateSelected.value &&
-                                      widget.tasksController.date.value !=
-                                          null &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (tasksController.dateSelected.value &&
+                                      tasksController.date.value != null &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.date.value!.year,
-                                          widget.tasksController.date.value!
-                                              .month,
-                                          widget
-                                              .tasksController.date.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.date.value!.year,
+                                          tasksController.date.value!.month,
+                                          tasksController.date.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
                                   //schedule notofication if date is not selected and time is selected
-                                  if (!widget
-                                          .tasksController.dateSelected.value &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (!tasksController.dateSelected.value &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.time.value!.year,
-                                          widget.tasksController.time.value!
-                                              .month,
-                                          widget
-                                              .tasksController.time.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.time.value!.year,
+                                          tasksController.time.value!.month,
+                                          tasksController.time.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
-                                  widget.tasksController.date.value = null;
-                                  widget.tasksController.dateSelected.value =
-                                      false;
-                                  widget.tasksController.time.value = null;
-                                  widget.tasksController.timeSelected.value =
-                                      false;
+                                  tasksController.date.value = null;
+                                  tasksController.dateSelected.value = false;
+                                  tasksController.time.value = null;
+                                  tasksController.timeSelected.value = false;
                                   Get.back();
                                 },
                                 child: Row(
@@ -962,26 +846,18 @@ class _ItemState extends State<Item> {
                               ),
                               SimpleDialogOption(
                                 onPressed: () async {
-                                  widget
-                                      .categoriesController
+                                  categoriesController
                                       .isTimeModalOpenedFromTasksScreen
                                       .value = true;
-                                  if (widget.fireStoreData.data().todoDate !=
-                                      null) {
-                                    widget.tasksController.dateSelected.value =
-                                        true;
-                                    widget.tasksController.date.value = widget
-                                        .fireStoreData
-                                        .data()
-                                        .todoDate!
-                                        .toDate();
+                                  if (fireStoreData.data().todoDate != null) {
+                                    tasksController.dateSelected.value = true;
+                                    tasksController.date.value =
+                                        fireStoreData.data().todoDate!.toDate();
                                   }
-                                  if (widget.fireStoreData.data().todoTime !=
-                                      null) {
-                                    widget.tasksController.timeSelected.value =
-                                        true;
+                                  if (fireStoreData.data().todoTime != null) {
+                                    tasksController.timeSelected.value = true;
                                   }
-                                  widget.tasksController.time.value =
+                                  tasksController.time.value =
                                       await CupertinoRoundedDatePicker.show(
                                     context,
                                     minuteInterval: 5,
@@ -993,98 +869,77 @@ class _ItemState extends State<Item> {
                                         : Constants.kWhiteBgColor,
                                     use24hFormat: MediaQuery.of(context)
                                         .alwaysUse24HourFormat,
-                                    initialDate: widget.tasksController
+                                    initialDate: tasksController
                                                 .timeSelected.value &&
-                                            widget.tasksController.time.value !=
-                                                null
-                                        ? widget.tasksController.time.value
+                                            tasksController.time.value != null
+                                        ? tasksController.time.value
                                         : DateTime.now()
                                             .roundUp(DateTime.now()),
                                     initialDatePickerMode:
                                         CupertinoDatePickerMode.time,
                                     onDateTimeChanged: (selectedDateTime) {
-                                      widget.tasksController.time.value =
+                                      tasksController.time.value =
                                           selectedDateTime;
                                     },
                                   );
                                   int? extractedID;
-                                  extractedID = await widget.databaseController
-                                      .updateTodo(
-                                    widget.fireStoreData,
+                                  extractedID =
+                                      await databaseController.updateTodo(
+                                    fireStoreData,
                                     {
-                                      'time':
-                                          widget.tasksController.time.value !=
-                                                  null
-                                              ? Timestamp.fromDate(widget
-                                                  .tasksController.time.value!)
-                                              : null,
+                                      'time': tasksController.time.value != null
+                                          ? Timestamp.fromDate(
+                                              tasksController.time.value!)
+                                          : null,
                                     },
                                   );
-                                  widget.notificationsController
+                                  notificationsController
                                       .cancelNotification(extractedID);
                                   //shchedule notification if date is selected and time is selected
-                                  if (widget.tasksController.dateSelected.value &&
-                                      widget.tasksController.date.value !=
-                                          null &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (tasksController.dateSelected.value &&
+                                      tasksController.date.value != null &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.date.value!.year,
-                                          widget.tasksController.date.value!
-                                              .month,
-                                          widget
-                                              .tasksController.date.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.date.value!.year,
+                                          tasksController.date.value!.month,
+                                          tasksController.date.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
                                   //schedule notofication if date is not selected and time is selected
-                                  if (!widget
-                                          .tasksController.dateSelected.value &&
-                                      widget
-                                          .tasksController.timeSelected.value &&
-                                      widget.tasksController.time.value !=
-                                          null) {
-                                    widget.notificationsController
+                                  if (!tasksController.dateSelected.value &&
+                                      tasksController.timeSelected.value &&
+                                      tasksController.time.value != null) {
+                                    notificationsController
                                         .showScheduledNotification(
                                       id: extractedID,
                                       title: 'Task reminder',
-                                      body: widget.todo.description,
+                                      body: todo.description,
                                       scheduledTime: DateTime(
-                                          widget
-                                              .tasksController.time.value!.year,
-                                          widget.tasksController.time.value!
-                                              .month,
-                                          widget
-                                              .tasksController.time.value!.day,
-                                          widget
-                                              .tasksController.time.value!.hour,
-                                          widget.tasksController.time.value!
-                                              .minute,
+                                          tasksController.time.value!.year,
+                                          tasksController.time.value!.month,
+                                          tasksController.time.value!.day,
+                                          tasksController.time.value!.hour,
+                                          tasksController.time.value!.minute,
                                           0,
                                           0,
                                           0),
                                     );
                                   }
-                                  widget.tasksController.time.value = null;
-                                  widget.tasksController.timeSelected.value =
-                                      false;
-                                  widget.tasksController.date.value = null;
-                                  widget.tasksController.dateSelected.value =
-                                      false;
+                                  tasksController.time.value = null;
+                                  tasksController.timeSelected.value = false;
+                                  tasksController.date.value = null;
+                                  tasksController.dateSelected.value = false;
                                   Get.back();
                                 },
                                 child: Row(
@@ -1138,7 +993,7 @@ class _ItemState extends State<Item> {
               icon: Icons.edit_outlined,
               iconSize: 25,
               onPressed: (context) {
-                widget.tasksController.todoOpenedFromTasksScreen.value = true;
+                tasksController.todoOpenedFromTasksScreen.value = true;
                 showBarModalBottomSheet(
                   isDismissible: false,
                   enableDrag: false,
@@ -1156,9 +1011,9 @@ class _ItemState extends State<Item> {
                   ),
                   backgroundColor: Colors.transparent,
                   builder: (context) => TaskModalView(
-                    fireStoreData: widget.fireStoreData,
-                    category: widget.firestoreCategoryData,
-                    categoryReferenceID: widget.categoryReferenceID,
+                    fireStoreData: fireStoreData,
+                    category: firestoreCategoryData,
+                    categoryReferenceID: categoryReferenceID,
                   ),
                 );
               },
@@ -1175,214 +1030,187 @@ class _ItemState extends State<Item> {
               icon: CustomIcons.trashCan,
               iconSize: 25,
               onPressed: (context) async {
-                widget.databaseController.deleteTodo(widget.fireStoreData);
+                databaseController.deleteTodo(fireStoreData);
               },
             ),
           ],
         ),
-        child: FadeOutParticle(
-          duration: const Duration(milliseconds: 500),
-          disappear: isPressed,
-          onAnimationEnd: () async {
-            int? todoID;
-            todoID = await widget.databaseController
-                .updateTodo(widget.fireStoreData, {
-              'isDone': widget.todo.isDone,
-              'whenCompleted': Timestamp.fromDate(
-                DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day,
-                ),
-              ),
-            });
-            if (widget.todo.isDone == true) {
-              widget.notificationsController.cancelNotification(todoID);
-            }
-          },
-          child: Material(
-            child: Ink(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(stops: const [
-                  0.015,
-                  0.015
-                ], colors: [
-                  widget.color == null
-                      ? context.isDarkMode
-                          ? Constants.kDarkThemeWhiteAccentColor
-                          : Constants.kAlternativeTextColor
-                      : Color(widget.color!),
-                  context.isDarkMode
-                      ? widget.todo.isDone == true
-                          ? Constants.kDarkThemeTodoIsDoneColor
-                          : Constants.kDarkThemeBGLightColor
-                      : widget.todo.isDone == true
-                          ? Constants.kLightThemeTodoIsDoneColor
-                          : Constants.kWhiteBgColor,
-                ]),
-              ),
-              child: ListTile(
-                contentPadding: const EdgeInsets.only(right: 20.0),
-                horizontalTitleGap: 0,
-                minVerticalPadding: 0,
-                onTap: () {
-                  widget.tasksController.todoOpenedFromTasksScreen.value = true;
-                  showBarModalBottomSheet(
-                    isDismissible: false,
-                    enableDrag: false,
-                    expand: true,
-                    context: context,
-                    topControl: Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        splashRadius: 1,
-                        visualDensity: VisualDensity.compact,
-                        onPressed: () => Get.back(),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 30.0,
+        child: Material(
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(stops: const [
+                0.015,
+                0.015
+              ], colors: [
+                color == null
+                    ? context.isDarkMode
+                        ? Constants.kDarkThemeWhiteAccentColor
+                        : Constants.kAlternativeTextColor
+                    : Color(color!),
+                context.isDarkMode
+                    ? todo.isDone == true
+                        ? Constants.kDarkThemeTodoIsDoneColor
+                        : Constants.kDarkThemeBGLightColor
+                    : todo.isDone == true
+                        ? Constants.kLightThemeTodoIsDoneColor
+                        : Constants.kWhiteBgColor,
+              ]),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.only(right: 20.0),
+              horizontalTitleGap: 0,
+              minVerticalPadding: 0,
+              onTap: () {
+                tasksController.todoOpenedFromTasksScreen.value = true;
+                showBarModalBottomSheet(
+                  isDismissible: false,
+                  enableDrag: false,
+                  expand: true,
+                  context: context,
+                  topControl: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      splashRadius: 1,
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () => Get.back(),
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      iconSize: 30.0,
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => TaskModalView(
+                    fireStoreData: fireStoreData,
+                    category: firestoreCategoryData,
+                    categoryReferenceID: categoryReferenceID,
+                  ),
+                );
+              },
+              leading: Checkbox(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                fillColor: MaterialStateProperty.all(context.isDarkMode
+                    ? Constants.kDarkThemeAccentColor
+                    : Constants.kAccentColor),
+                value: todo.isDone,
+                onChanged: (value) async {
+                  todo.isDone = value;
+
+                  int? todoID;
+                  todoID = await databaseController.updateTodo(fireStoreData, {
+                    'isDone': value,
+                    'whenCompleted': Timestamp.fromDate(
+                      DateTime(
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day,
                       ),
                     ),
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => TaskModalView(
-                      fireStoreData: widget.fireStoreData,
-                      category: widget.firestoreCategoryData,
-                      categoryReferenceID: widget.categoryReferenceID,
-                    ),
-                  );
+                  });
+                  if (value == true) {
+                    notificationsController.cancelNotification(todoID);
+                  }
                 },
-                leading: Checkbox(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  fillColor: MaterialStateProperty.all(context.isDarkMode
-                      ? Constants.kDarkThemeAccentColor
-                      : Constants.kAccentColor),
-                  value: widget.todo.isDone,
-                  onChanged: (value) async {
-                    widget.todo.isDone = value;
-                    setState(() {
-                      isPressed = true;
-                    });
-
-                    // int? todoID;
-                    // todoID =
-                    //     await databaseController.updateTodo(fireStoreData, {
-                    //   'isDone': value,
-                    //   'whenCompleted': Timestamp.fromDate(
-                    //     DateTime(
-                    //       DateTime.now().year,
-                    //       DateTime.now().month,
-                    //       DateTime.now().day,
-                    //     ),
-                    //   ),
-                    // });
-                    // if (value == true) {
-                    //   notificationsController.cancelNotification(todoID);
-                    // }
-                  },
-                ),
-                title: Text(
-                  widget.todo.description!,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                trailing: widget.todo.subTodos != null &&
-                        widget.todo.subTodos!.isNotEmpty
-                    ? const Icon(Icons.list_outlined)
-                    : null,
-                subtitle: widget.todo.todoDate == null &&
-                        widget.todo.todoTime == null
-                    ? null
-                    : (() {
-                        DateTime? parsedDate;
-                        DateTime? parsedTime;
-                        String? formattedDate;
-                        if (widget.todo.todoDate != null) {
-                          parsedDate = widget.todo.todoDate!.toDate();
-                          formattedDate = DateFormat.MMMd(Platform.localeName)
-                              .format(parsedDate);
-                        }
-                        if (widget.todo.todoTime != null) {
-                          parsedTime = widget.todo.todoTime?.toDate();
-                        }
-
-                        if (parsedDate != null && parsedTime == null) {
-                          if (parsedDate.isOnCurrentWeek(parsedDate, context)) {
-                            if (parsedDate.isToday &&
-                                parsedDate.isAfter(DateTime.now())) {
-                              return Text('today'.tr);
-                            } else if (parsedDate.isTomorrow) {
-                              return Text('tomorrow'.tr);
-                            } else {
-                              return Text(formattedDate!);
-                            }
-                          } else if (parsedDate.isAfter(DateTime.now())) {
-                            return Text(formattedDate!);
-                          } else {
-                            return Text('overdue'.tr);
-                          }
-                        } else if (parsedDate != null && parsedTime != null) {
-                          var datePlusTime = DateTime(
-                              parsedDate.year,
-                              parsedDate.month,
-                              parsedDate.day,
-                              parsedTime.hour,
-                              parsedTime.minute);
-
-                          if (datePlusTime.isBefore(DateTime.now())) {
-                            return Text('overdue'.tr);
-                          } else {
-                            return Row(
-                              children: [
-                                const Icon(
-                                  CustomIcons.bell,
-                                  size: 12.0,
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                MediaQuery.of(context).alwaysUse24HourFormat
-                                    ? Text(
-                                        '$formattedDate ${'at'.tr} ${DateFormat.Hm().format(parsedTime)}')
-                                    : Text(
-                                        '$formattedDate ${'at'.tr} ${DateFormat.jm().format(parsedTime)}'),
-                              ],
-                            );
-                          }
-                        } else {
-                          var timeString = DateFormat.Hm().format(parsedTime!);
-
-                          if (parsedTime.isToday &&
-                              !parsedTime.isBefore(DateTime.now())) {
-                            return Row(
-                              children: [
-                                const Icon(
-                                  CustomIcons.bell,
-                                  size: 12.0,
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text('${'remindToday'.tr} $timeString'),
-                              ],
-                            );
-                          } else if (parsedTime.isTomorrow) {
-                            return Row(
-                              children: [
-                                const Icon(
-                                  CustomIcons.bell,
-                                  size: 12.0,
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text('${'remindTomorrow'.tr} $timeString'),
-                              ],
-                            );
-                          } else {
-                            return Text('overdue'.tr);
-                          }
-                        }
-                      }()),
               ),
+              title: Text(
+                todo.description!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              trailing: todo.subTodos != null && todo.subTodos!.isNotEmpty
+                  ? const Icon(Icons.list_outlined)
+                  : null,
+              subtitle: todo.todoDate == null && todo.todoTime == null
+                  ? null
+                  : (() {
+                      DateTime? parsedDate;
+                      DateTime? parsedTime;
+                      String? formattedDate;
+                      if (todo.todoDate != null) {
+                        parsedDate = todo.todoDate!.toDate();
+                        formattedDate = DateFormat.MMMd(Platform.localeName)
+                            .format(parsedDate);
+                      }
+                      if (todo.todoTime != null) {
+                        parsedTime = todo.todoTime?.toDate();
+                      }
+
+                      if (parsedDate != null && parsedTime == null) {
+                        if (parsedDate.isOnCurrentWeek(parsedDate, context)) {
+                          if (parsedDate.isToday &&
+                              parsedDate.isAfter(DateTime.now())) {
+                            return Text('today'.tr);
+                          } else if (parsedDate.isTomorrow) {
+                            return Text('tomorrow'.tr);
+                          } else {
+                            return Text(formattedDate!);
+                          }
+                        } else if (parsedDate.isAfter(DateTime.now())) {
+                          return Text(formattedDate!);
+                        } else {
+                          return Text('overdue'.tr);
+                        }
+                      } else if (parsedDate != null && parsedTime != null) {
+                        var datePlusTime = DateTime(
+                            parsedDate.year,
+                            parsedDate.month,
+                            parsedDate.day,
+                            parsedTime.hour,
+                            parsedTime.minute);
+
+                        if (datePlusTime.isBefore(DateTime.now())) {
+                          return Text('overdue'.tr);
+                        } else {
+                          return Row(
+                            children: [
+                              const Icon(
+                                CustomIcons.bell,
+                                size: 12.0,
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              MediaQuery.of(context).alwaysUse24HourFormat
+                                  ? Text(
+                                      '$formattedDate ${'at'.tr} ${DateFormat.Hm().format(parsedTime)}')
+                                  : Text(
+                                      '$formattedDate ${'at'.tr} ${DateFormat.jm().format(parsedTime)}'),
+                            ],
+                          );
+                        }
+                      } else {
+                        var timeString = DateFormat.Hm().format(parsedTime!);
+
+                        if (parsedTime.isToday &&
+                            !parsedTime.isBefore(DateTime.now())) {
+                          return Row(
+                            children: [
+                              const Icon(
+                                CustomIcons.bell,
+                                size: 12.0,
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Text('${'remindToday'.tr} $timeString'),
+                            ],
+                          );
+                        } else if (parsedTime.isTomorrow) {
+                          return Row(
+                            children: [
+                              const Icon(
+                                CustomIcons.bell,
+                                size: 12.0,
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Text('${'remindTomorrow'.tr} $timeString'),
+                            ],
+                          );
+                        } else {
+                          return Text('overdue'.tr);
+                        }
+                      }
+                    }()),
             ),
           ),
         ),

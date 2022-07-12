@@ -13,7 +13,30 @@ class DatabaseController extends GetxController {
   final NotificationsController notificationsController =
       Get.put(NotificationsController());
   final _firebaseAuth = FirebaseAuth.instance;
-
+  final todosCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('todos')
+      .withConverter<Todo>(
+        fromFirestore: (snapshot, _) => Todo.fromJson(snapshot.data()!),
+        toFirestore: (todo, _) => todo.toJson(),
+      );
+  final categoriesCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('categories')
+      .withConverter<Category>(
+        fromFirestore: (snapshot, _) => Category.fromJson(snapshot.data()!),
+        toFirestore: (category, _) => category.toJson(),
+      );
+  final listsCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('lists')
+      .withConverter<ListTask>(
+        fromFirestore: (snapshot, _) => ListTask.fromJson(snapshot.data()!),
+        toFirestore: (list, _) => list.toJson(),
+      );
   @override
   void onInit() async {
     super.onInit();

@@ -51,12 +51,3 @@ class Todo {
     };
   }
 }
-
-final todosCollection = FirebaseFirestore.instance
-    .collection('users')
-    .doc(FirebaseAuth.instance.currentUser!.uid)
-    .collection('todos')
-    .withConverter<Todo>(
-      fromFirestore: (snapshot, _) => Todo.fromJson(snapshot.data()!),
-      toFirestore: (todo, _) => todo.toJson(),
-    );

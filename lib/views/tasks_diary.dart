@@ -53,7 +53,7 @@ class TasksDiary extends StatelessWidget {
           right: 20.0,
         ),
         child: FirestoreQueryBuilderNew(
-          query: todosCollection
+          query: databaseController.todosCollection
               .where('isDone', isEqualTo: true)
               .orderBy('whenCompleted', descending: true),
           builder: (BuildContext context,

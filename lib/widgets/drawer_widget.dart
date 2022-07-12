@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -117,7 +118,6 @@ class AddNewCategorySection extends StatefulWidget {
 class _AddNewCategorySectionState extends State<AddNewCategorySection>
     with TickerProviderStateMixin {
   @override
-  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,7 +161,7 @@ class _AddNewCategorySectionState extends State<AddNewCategorySection>
 }
 
 class CategoriesInDrawerWidget extends StatelessWidget {
-  const CategoriesInDrawerWidget({
+  CategoriesInDrawerWidget({
     Key? key,
     required CategoriesController categoriesController,
     required this.databaseController,
@@ -170,7 +170,14 @@ class CategoriesInDrawerWidget extends StatelessWidget {
 
   final CategoriesController _categoriesController;
   final DatabaseController databaseController;
-
+  final categoriesCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('categories')
+      .withConverter<Category>(
+        fromFirestore: (snapshot, _) => Category.fromJson(snapshot.data()!),
+        toFirestore: (category, _) => category.toJson(),
+      );
   @override
   Widget build(BuildContext context) {
     return Expanded(

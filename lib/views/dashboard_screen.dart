@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:todozoid2/Database/database.dart';
 import 'package:todozoid2/controllers/navigation_bar_controller.dart';
 import 'package:todozoid2/controllers/tasks_controller.dart';
 import 'package:get/get.dart';
@@ -122,7 +123,7 @@ class TasksCompletedThisWeek extends StatelessWidget {
             const SizedBox(
               height: 40.0,
             ),
-            const CompletedThisWeek(),
+            CompletedThisWeek(),
           ],
         ),
       ),
@@ -131,13 +132,13 @@ class TasksCompletedThisWeek extends StatelessWidget {
 }
 
 class CompletedThisWeek extends StatelessWidget {
-  const CompletedThisWeek({Key? key}) : super(key: key);
-
+  CompletedThisWeek({Key? key}) : super(key: key);
+  final DatabaseController databaseController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Center(
       child: FirestoreQueryBuilderNew<Todo>(
-        query: todosCollection,
+        query: databaseController.todosCollection,
         builder: (context, snapshot, child) {
           if (snapshot.isFetching) {
             return const Center(child: CircularProgressIndicator.adaptive());
@@ -370,6 +371,7 @@ class ActiveTasks extends StatelessWidget {
 
   final TasksController _tasksController;
   final NavigationBarController controller = Get.find();
+  final DatabaseController databaseController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -401,7 +403,8 @@ class ActiveTasks extends StatelessWidget {
                   ),
                 ),
                 FirestoreQueryBuilderNew<Todo>(
-                  query: todosCollection.where('isDone', isEqualTo: false),
+                  query: databaseController.todosCollection
+                      .where('isDone', isEqualTo: false),
                   builder: (context, snapshot, child) {
                     if (snapshot.isFetching) {
                       return const Center(
@@ -455,7 +458,9 @@ class ActiveTasks extends StatelessWidget {
           Expanded(
             flex: 1,
             child: FirestoreQueryBuilderNew<Todo>(
-              query: todosCollection.where('isDone', isEqualTo: true).where(
+              query: databaseController.todosCollection
+                  .where('isDone', isEqualTo: true)
+                  .where(
                     'whenCompleted',
                     isGreaterThanOrEqualTo: Timestamp.fromDate(
                       DateTime(

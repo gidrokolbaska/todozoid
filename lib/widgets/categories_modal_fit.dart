@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -15,7 +16,14 @@ class CategoriesModalFit extends StatelessWidget {
   final CategoriesController _categoriesController = Get.find();
   final DatabaseController databaseController = Get.find();
   final QueryDocumentSnapshot<Todo>? queryData;
-
+  final categoriesCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('categories')
+      .withConverter<Category>(
+        fromFirestore: (snapshot, _) => Category.fromJson(snapshot.data()!),
+        toFirestore: (category, _) => category.toJson(),
+      );
   @override
   Widget build(BuildContext context) {
     return SafeArea(

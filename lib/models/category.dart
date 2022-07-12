@@ -21,12 +21,3 @@ class Category {
     };
   }
 }
-
-final categoriesCollection = FirebaseFirestore.instance
-    .collection('users')
-    .doc(FirebaseAuth.instance.currentUser!.uid)
-    .collection('categories')
-    .withConverter<Category>(
-      fromFirestore: (snapshot, _) => Category.fromJson(snapshot.data()!),
-      toFirestore: (category, _) => category.toJson(),
-    );

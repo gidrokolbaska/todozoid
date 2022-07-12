@@ -28,12 +28,3 @@ class ListTask {
     };
   }
 }
-
-final listsCollection = FirebaseFirestore.instance
-    .collection('users')
-    .doc(FirebaseAuth.instance.currentUser!.uid)
-    .collection('lists')
-    .withConverter<ListTask>(
-      fromFirestore: (snapshot, _) => ListTask.fromJson(snapshot.data()!),
-      toFirestore: (list, _) => list.toJson(),
-    );

@@ -91,6 +91,11 @@ class AuthGate extends StatelessWidget {
 
         if (!snapshot.hasData) {
           return SignInScreen(
+            // actions: [
+            //   SignedOutAction((context) {
+            //     Get.back();
+            //   })
+            // ],
             providerConfigs: [
               GoogleProviderConfiguration(
                   clientId: Platform.isIOS
@@ -144,6 +149,8 @@ class AuthGate extends StatelessWidget {
         }
 
         // Render application if authenticated
+        //print(snapshot.data!.email);
+
         return HomePageContainer();
       },
     );

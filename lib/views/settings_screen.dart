@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:todozoid2/Database/database.dart';
 
 import 'package:todozoid2/consts/theme_service.dart';
 import 'package:todozoid2/controllers/tasks_controller.dart';
 import 'package:todozoid2/controllers/theme_controller.dart';
 import 'package:todozoid2/helpers/custom_icons_icons.dart';
 import 'package:get/get.dart';
+import 'package:todozoid2/models/todo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../consts/consts.dart';
@@ -347,8 +349,7 @@ class SettingsActionsWidget extends StatelessWidget {
           bottom: 0.03.sh,
           child: ElevatedButton.icon(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Get.back();
+              await handleSignOut();
             },
             icon: const Icon(Icons.logout_outlined),
             label: Text('signOut'.tr),
@@ -356,6 +357,18 @@ class SettingsActionsWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+Future handleSignOut() async {
+  try {
+    return await FirebaseAuth.instance.signOut().then((value) async {
+      Get.deleteAll();
+
+      Get.back();
+    });
+  } catch (e) {
+    return (e);
   }
 }
 

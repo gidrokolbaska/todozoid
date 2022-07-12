@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:todozoid2/Database/database.dart';
 
 import 'package:todozoid2/controllers/navigation_bar_controller.dart';
 import 'package:todozoid2/controllers/tasks_controller.dart';
@@ -20,7 +21,7 @@ import '../widgets/create_tast_modal.dart';
 
 class HomePageContainer extends StatelessWidget {
   HomePageContainer({Key? key}) : super(key: key);
-
+  final DatabaseController databaseController = Get.put(DatabaseController());
   final NavigationBarController _navigationController =
       Get.put(NavigationBarController());
   final TasksController tasksController = Get.find();

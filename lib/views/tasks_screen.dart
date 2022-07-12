@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -41,18 +43,20 @@ class TasksScreen extends StatelessWidget {
           child: Obx(
             () => FirestoreQueryBuilderNew<Todo>(
               pageSize: 40,
-              query: todosCollection.where('isDone', isEqualTo: false).orderBy(
-                  (() {
-                    if (tasksController.sortedByValue.value == 0) {
-                      return 'description';
-                    }
-                    if (tasksController.sortedByValue.value == 1) {
-                      return 'isDone';
-                    } else {
-                      return 'day';
-                    }
-                  }()),
-                  descending: true),
+              query: databaseController.todosCollection
+                  .where('isDone', isEqualTo: false)
+                  .orderBy(
+                      (() {
+                        if (tasksController.sortedByValue.value == 0) {
+                          return 'description';
+                        }
+                        if (tasksController.sortedByValue.value == 1) {
+                          return 'isDone';
+                        } else {
+                          return 'day';
+                        }
+                      }()),
+                      descending: true),
               builder: (context, todoSnapshot, child) {
                 if (todoSnapshot.isFetching) {
                   return const Center(child: CircularProgressIndicator());
@@ -76,6 +80,7 @@ class TasksScreen extends StatelessWidget {
                     tasksController.todosEmpty.value = false;
                   });
                 }
+
                 return ListView.separated(
                   physics: const ClampingScrollPhysics(),
                   controller: scrollController,
@@ -100,7 +105,7 @@ class TasksScreen extends StatelessWidget {
 
                     Todo todo = todoSnapshot.docs[index].data();
                     return FirestoreQueryBuilderNew<Category>(
-                      query: categoriesCollection,
+                      query: databaseController.categoriesCollection,
                       builder: (context, snapshot, child) {
                         Category? category;
                         String? categoryReferenceID;
