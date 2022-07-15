@@ -189,7 +189,7 @@ class SettingsActionsWidget extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () async {
-                inAppReview.openStoreListing();
+                inAppReview.openStoreListing(appStoreId: '1634769736');
               },
               icon: const Icon(
                 Icons.reviews_outlined,
