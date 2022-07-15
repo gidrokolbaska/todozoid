@@ -25,7 +25,6 @@ import 'calendar picker/src/material_rounded_date_picker_style.dart';
 import 'calendar picker/src/material_rounded_year_picker_style.dart';
 import 'categories_modal_fit.dart';
 import 'create_tast_modal.dart';
-import 'custom_fadeout_particle/src/fade_out_particle.dart';
 import 'custom_slidable_action.dart';
 
 class Item extends StatelessWidget {
