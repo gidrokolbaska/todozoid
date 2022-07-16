@@ -35,6 +35,7 @@ class _CreateListBottomSheetWidgetState
   ScrollController scrollController = ScrollController();
   TextEditingController listDescriptionController = TextEditingController();
   late ShakeController shakeController;
+  final FocusNode mainFocusNode = FocusNode();
   List<Sublist> subList = [];
   List<TextEditingController> sublistTextEditingController = [];
   List<ShakeController> sublistShakeControllers = [];
@@ -75,6 +76,8 @@ class _CreateListBottomSheetWidgetState
         }
       }
     }
+    Future.delayed(const Duration(milliseconds: 350))
+        .then((value) => mainFocusNode.requestFocus());
     super.initState();
   }
 
@@ -83,14 +86,14 @@ class _CreateListBottomSheetWidgetState
     tasksDiaryController.emojiSelected.value = false;
     tasksDiaryController.listOpenedFromListsScreen.value = false;
     tasksDiaryController.selectedEmoji.value = null;
+    mainFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      height: 0.9.sh,
       child: Column(children: [
         Align(
           alignment: Alignment.centerRight,
@@ -167,8 +170,8 @@ class _CreateListBottomSheetWidgetState
                 ShakeView(
                   controller: shakeController,
                   child: TextField(
-                    autofocus: true,
-                    // focusNode: mainFocusNode,
+                    // autofocus: true,
+                    focusNode: mainFocusNode,
                     controller: listDescriptionController,
                     textInputAction: TextInputAction.next,
                     keyboardAppearance:
