@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -11,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:todozoid2/controllers/notifications_controller.dart';
 import 'package:todozoid2/helpers/time_extensions.dart';
-import 'package:todozoid2/helpers/helpers.dart' as helpers;
+
 import '../Database/database.dart';
 import '../consts/consts.dart';
 import '../controllers/categories_controller.dart';
@@ -19,10 +18,6 @@ import '../controllers/tasks_controller.dart';
 import '../helpers/custom_icons_icons.dart';
 import '../models/category.dart';
 import '../models/todo.dart';
-import 'calendar picker/src/cupertino_rounded_date_picker.dart';
-import 'calendar picker/src/flutter_rounded_date_picker_widget.dart';
-import 'calendar picker/src/material_rounded_date_picker_style.dart';
-import 'calendar picker/src/material_rounded_year_picker_style.dart';
 import 'categories_modal_fit.dart';
 import 'create_tast_modal.dart';
 import 'custom_slidable_action.dart';

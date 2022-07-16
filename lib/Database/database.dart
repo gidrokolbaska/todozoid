@@ -123,8 +123,8 @@ class DatabaseController extends GetxController {
   Future<int> updateTodo(
       QueryDocumentSnapshot<Todo> queryData, Map<String, Object?> data,
       [int? extractedID]) async {
-    await notificationsController.flutterLocalNotificationsPlugin
-        .cancel(queryData.reference.id.hashCode);
+    // await notificationsController.flutterLocalNotificationsPlugin
+    //     .cancel(queryData.reference.id.hashCode);
     await queryData.reference
         .update(data)
         .then((value) => extractedID = queryData.reference.id.hashCode);
@@ -132,6 +132,17 @@ class DatabaseController extends GetxController {
   }
 
   deleteTodo(QueryDocumentSnapshot<Todo> queryData) async {
+    for (var i = 1; i < notificationsController.amountOfRepeats.value; i++) {
+      if (i == 1) {
+        await notificationsController.flutterLocalNotificationsPlugin
+            .cancel(queryData.reference.id.hashCode);
+      }
+      if (notificationsController.amountOfRepeats.value > 1 && i > 1) {
+        await notificationsController.flutterLocalNotificationsPlugin
+            .cancel(queryData.reference.id.hashCode + i);
+      }
+    }
+
     await queryData.reference.delete();
   }
 
