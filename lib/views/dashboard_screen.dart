@@ -162,7 +162,13 @@ class CompletedThisWeek extends StatelessWidget {
           }
           return Text(
             '${snapshot.docs.where((element) => element.data().whenCompleted != null && element.data().whenCompleted!.toDate().isOnCurrentWeek(element.data().whenCompleted!.toDate(), context)).length}',
-            style: TextStyle(fontSize: 75.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 75.sp,
+              fontWeight: FontWeight.bold,
+              color: context.isDarkMode
+                  ? Constants.kDarkThemeTextColorAlternative
+                  : Constants.kAlternativeTextColor,
+            ),
           );
         },
       ),

@@ -44,6 +44,7 @@ class NavDrawer extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.zero,
                   onPressed: () {
+                    Scaffold.of(context).closeDrawer();
                     Get.to(() => SettingsScreen());
                   },
                   icon: Icon(
