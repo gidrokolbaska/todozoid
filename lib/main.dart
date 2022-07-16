@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
+
       builder: (context, child) {
         var locale = Get.deviceLocale;
         return GetMaterialApp(
@@ -63,13 +64,14 @@ class MyApp extends StatelessWidget {
           theme: Themes().lightTheme,
           darkTheme: Themes().darkTheme,
           themeMode: mode,
-
-          initialRoute: AppPages.initial,
+          home: child,
+          //initialRoute: AppPages.initial,
           getPages: AppPages.routes,
 
           //
         );
       },
+      child: AuthGate(),
       // builder: (BuildContext context) {
     );
   }
