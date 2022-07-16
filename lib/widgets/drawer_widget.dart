@@ -220,19 +220,20 @@ class MySlidable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Slidable(
       groupTag: 0,
+
       key: const ValueKey(0),
       endActionPane: ActionPane(
         dragDismissible: false,
         dismissible: DismissiblePane(
           onDismissed: () {},
         ),
-        extentRatio: 0.5,
+        extentRatio: 0.6,
         motion: const BehindMotion(),
         children: [
           MySlidableAction(
             spacing: 10,
             foregroundColor: Constants.kWhiteBgColor,
-            label: 'Edit',
+            label: 'edit'.tr,
             labelStyle: const TextStyle(
               fontSize: 11,
               //color: Constants.kPrimaryTextColor,
@@ -268,7 +269,7 @@ class MySlidable extends StatelessWidget {
           ),
           MySlidableAction(
             spacing: 10,
-            label: 'Delete',
+            label: 'delete'.tr,
             backgroundColor: Colors.red,
             labelStyle: const TextStyle(
               fontSize: 11,
