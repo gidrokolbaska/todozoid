@@ -44,6 +44,7 @@ class DashboardScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 26.60),
                 Center(
@@ -70,6 +71,7 @@ class DashboardScreen extends StatelessWidget {
                 SizedBox(
                   height: 240,
                   child: PageView.builder(
+                    clipBehavior: Clip.none,
                     controller: controller,
                     // itemCount: pages.length,
                     itemBuilder: (_, index) {
@@ -77,7 +79,7 @@ class DashboardScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 26.60),
+                //const SizedBox(height: 26.60),
               ],
             ),
           ),
@@ -97,12 +99,20 @@ class TasksCompletedThisWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      height: 215.h,
+      //height: 215.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: context.isDarkMode
             ? Constants.kDarkThemeBGLightColor
             : Constants.kWhiteBgColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26.withOpacity(0.1),
+            blurRadius: 3.0,
+            spreadRadius: 1.0,
+            offset: const Offset(2.0, 2.0), // shadow direction: bottom right
+          )
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -376,12 +386,20 @@ class ActiveTasks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      height: 215.h,
+      //height: 315.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: context.isDarkMode
             ? Constants.kDarkThemeBGLightColor
             : Constants.kWhiteBgColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26.withOpacity(0.1),
+            blurRadius: 3.0,
+            spreadRadius: 1.0,
+            offset: const Offset(2.0, 2.0), // shadow direction: bottom right
+          )
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -426,7 +444,7 @@ class ActiveTasks extends StatelessWidget {
                         fontSize: 70.sp,
                         color: Get.isDarkMode
                             ? Constants.kDarkThemeTextColorAlternative
-                            : Constants.kBlackTextOnWhiteBGColor,
+                            : Constants.kAlternativeTextColor,
                         fontWeight: FontWeight.bold,
                       ),
                     );
