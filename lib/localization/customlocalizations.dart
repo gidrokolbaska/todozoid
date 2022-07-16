@@ -66,7 +66,10 @@ class MyLocalizations extends Translations {
           'signOut': 'Sign out',
           'categoryName': 'Category name',
           'newItem': 'New item',
-          'taskReminder': 'Task reminder'
+          'taskReminder': 'Task reminder',
+          'notifications': 'Notifications',
+          'amountOfRepeats': 'Amount of repeats',
+          'intervalOfRepeats': 'Interval of repeats (min)',
         },
         'ru_RU': {
           'welcome':
@@ -132,7 +135,10 @@ class MyLocalizations extends Translations {
           'signOut': 'Выйти',
           'categoryName': 'Наименование категории',
           'newItem': 'Новый элемент',
-          'taskReminder': 'Напоминание о задаче'
+          'taskReminder': 'Напоминание о задаче',
+          'notifications': 'Уведомления',
+          'amountOfRepeats': 'Количество повторений',
+          'intervalOfRepeats': 'Интервал повторений (мин)',
         }
       };
 }
