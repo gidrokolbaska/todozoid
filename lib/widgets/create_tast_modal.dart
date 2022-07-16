@@ -111,6 +111,8 @@ class _TaskModalViewState extends State<TaskModalView>
         }
       }
     }
+    Future.delayed(const Duration(milliseconds: 350))
+        .then((value) => mainFocusNode.requestFocus());
 
     super.initState();
   }
@@ -146,9 +148,9 @@ class _TaskModalViewState extends State<TaskModalView>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      height: 0.9.sh,
+      //height: 0.9.sh,
       child: Column(
         children: [
           CreateTaskWidget(
@@ -535,6 +537,7 @@ class NoteTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(8.0),
       constraints: const BoxConstraints(minHeight: 50.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
@@ -542,30 +545,24 @@ class NoteTextFieldWidget extends StatelessWidget {
             ? Constants.kDarkThemeNoteColor
             : Constants.kNoteColor,
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8.0,
-        ),
-        child: TextField(
-          style: TextStyle(fontSize: 12.sp),
-          maxLines: 9,
-          minLines: 1,
-          controller: todoNoteController,
-          textInputAction: TextInputAction.done,
-          keyboardAppearance:
-              context.isDarkMode ? Brightness.dark : Brightness.light,
-          inputFormatters: [
-            FilteringTextInputFormatter.deny(
-              RegExp(r"^\s"),
-            ),
-          ],
-          textAlign: TextAlign.left,
-          decoration: InputDecoration(
-            isCollapsed: true,
-            border: InputBorder.none,
-            hintText: 'note'.tr,
-            contentPadding: const EdgeInsets.all(5),
-          ),
+      child: TextField(
+        style: TextStyle(fontSize: 12.sp),
+        maxLines: 9,
+        minLines: 1,
+        controller: todoNoteController,
+        textInputAction: TextInputAction.done,
+        keyboardAppearance:
+            context.isDarkMode ? Brightness.dark : Brightness.light,
+        // inputFormatters: [
+        //   FilteringTextInputFormatter.deny(
+        //     RegExp(r"^\s"),
+        //   ),
+        // ],
+        textAlign: TextAlign.left,
+        decoration: InputDecoration.collapsed(
+          border: InputBorder.none,
+          hintText: 'note'.tr,
+          //contentPadding: const EdgeInsets.all(5),
         ),
       ),
     );
@@ -1096,7 +1093,7 @@ class InputFieldForTodoDescription extends StatelessWidget {
     return ShakeView(
       controller: _shakeController,
       child: TextField(
-        autofocus: true,
+        autofocus: false,
         focusNode: mainFocusNode,
         controller: todoDescriptionController,
         textInputAction: TextInputAction.next,
@@ -1210,39 +1207,103 @@ class CreateTaskWidget extends StatelessWidget {
                 tasksController.date.value != null &&
                 tasksController.timeSelected.value &&
                 tasksController.time.value != null) {
-              notificationsController.showScheduledNotification(
-                id: extractedID,
-                title: 'Task reminder',
-                body: todoDescriptionController.text,
-                scheduledTime: DateTime(
-                    tasksController.date.value!.year,
-                    tasksController.date.value!.month,
-                    tasksController.date.value!.day,
-                    tasksController.time.value!.hour,
-                    tasksController.time.value!.minute,
-                    0,
-                    0,
-                    0),
-              );
+              var scheduledDateTime = DateTime(
+                  tasksController.date.value!.year,
+                  tasksController.date.value!.month,
+                  tasksController.date.value!.day,
+                  tasksController.time.value!.hour,
+                  tasksController.time.value!.minute,
+                  0,
+                  0,
+                  0);
+              //cancel pending notifications
+              for (var i = 1;
+                  i < notificationsController.amountOfRepeats.value;
+                  i++) {
+                if (i == 1) {
+                  notificationsController.cancelNotification(extractedID);
+                }
+                if (notificationsController.amountOfRepeats.value > 1 &&
+                    i > 1) {
+                  notificationsController.cancelNotification(extractedID + i);
+                }
+              }
+
+              for (var i = 1;
+                  i < notificationsController.amountOfRepeats.value;
+                  i++) {
+                if (i == 1) {
+                  notificationsController.showScheduledNotification(
+                    id: extractedID,
+                    title: 'Task reminder',
+                    body: todoDescriptionController.text,
+                    scheduledTime: scheduledDateTime,
+                  );
+                }
+                if (notificationsController.amountOfRepeats.value > 1) {
+                  notificationsController.showScheduledNotification(
+                    id: extractedID + i,
+                    title: 'Task reminder',
+                    body: todoDescriptionController.text,
+                    scheduledTime: scheduledDateTime.add(
+                      Duration(
+                          minutes:
+                              notificationsController.intervalOfRepeats.value),
+                    ),
+                  );
+                }
+              }
             }
             //schedule notofication if date is not selected and time is selected
             if (!tasksController.dateSelected.value &&
                 tasksController.timeSelected.value &&
                 tasksController.time.value != null) {
-              notificationsController.showScheduledNotification(
-                id: extractedID,
-                title: 'Task reminder',
-                body: todoDescriptionController.text,
-                scheduledTime: DateTime(
-                    tasksController.time.value!.year,
-                    tasksController.time.value!.month,
-                    tasksController.time.value!.day,
-                    tasksController.time.value!.hour,
-                    tasksController.time.value!.minute,
-                    0,
-                    0,
-                    0),
-              );
+              var scheduledDateTime = DateTime(
+                  tasksController.time.value!.year,
+                  tasksController.time.value!.month,
+                  tasksController.time.value!.day,
+                  tasksController.time.value!.hour,
+                  tasksController.time.value!.minute,
+                  0,
+                  0,
+                  0);
+              //cancel pending notifications
+              for (var i = 1;
+                  i < notificationsController.amountOfRepeats.value;
+                  i++) {
+                if (i == 1) {
+                  notificationsController.cancelNotification(extractedID);
+                }
+                if (notificationsController.amountOfRepeats.value > 1 &&
+                    i > 1) {
+                  notificationsController.cancelNotification(extractedID + i);
+                }
+              }
+
+              for (var i = 1;
+                  i < notificationsController.amountOfRepeats.value;
+                  i++) {
+                if (i == 1) {
+                  notificationsController.showScheduledNotification(
+                    id: extractedID,
+                    title: 'Task reminder',
+                    body: todoDescriptionController.text,
+                    scheduledTime: scheduledDateTime,
+                  );
+                }
+                if (notificationsController.amountOfRepeats.value > 1) {
+                  notificationsController.showScheduledNotification(
+                    id: extractedID + i,
+                    title: 'Task reminder',
+                    body: todoDescriptionController.text,
+                    scheduledTime: scheduledDateTime.add(
+                      Duration(
+                          minutes:
+                              notificationsController.intervalOfRepeats.value),
+                    ),
+                  );
+                }
+              }
             }
             Get.back();
           },

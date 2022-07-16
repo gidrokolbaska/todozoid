@@ -11,6 +11,7 @@ import 'package:todozoid2/controllers/theme_controller.dart';
 import 'package:todozoid2/helpers/custom_icons_icons.dart';
 import 'package:get/get.dart';
 import 'package:todozoid2/routes/app_pages.dart';
+import 'package:todozoid2/views/notifications_settings_screen.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -91,70 +92,68 @@ class SettingsBodyWidget extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child: RepaintBoundary(
-              child: CupertinoSlidingSegmentedControl(
-                  thumbColor: context.isDarkMode
-                      ? Constants.kDarkThemeLightOnLightColor
-                      : Constants.kWhiteBgColor,
-                  backgroundColor: context.isDarkMode
-                      ? Constants.kDarkThemeBGLightColor
-                      : Constants.kLightGrayColor2,
-                  children: {
-                    0: ListTile(
-                      dense: true,
-                      minVerticalPadding: 0.0,
-                      horizontalTitleGap: 0.0,
-                      minLeadingWidth: 0.0,
-                      leading: const Icon(
-                        Icons.wb_sunny_outlined,
-                        size: 27,
-                        //color: Constants.kIconColor,
-                      ),
-                      title: Text(
-                        'light'.tr,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 0.017,
-                          letterSpacing: 1,
-                          color: context.isDarkMode
-                              ? Constants.kDarkThemeTextColor
-                              : Constants.kAlternativeTextColor,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+            child: CupertinoSlidingSegmentedControl(
+                thumbColor: context.isDarkMode
+                    ? Constants.kDarkThemeLightOnLightColor
+                    : Constants.kWhiteBgColor,
+                backgroundColor: context.isDarkMode
+                    ? Constants.kDarkThemeBGLightColor
+                    : Constants.kLightGrayColor2,
+                children: {
+                  0: ListTile(
+                    dense: true,
+                    minVerticalPadding: 0.0,
+                    horizontalTitleGap: 0.0,
+                    minLeadingWidth: 0.0,
+                    leading: const Icon(
+                      Icons.wb_sunny_outlined,
+                      size: 27,
+                      //color: Constants.kIconColor,
                     ),
-                    1: ListTile(
-                      dense: true,
-                      minVerticalPadding: 0.0,
-                      horizontalTitleGap: 0.0,
-                      minLeadingWidth: 0,
-                      leading: Icon(
-                        CustomIcons.moon,
+                    title: Text(
+                      'light'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        letterSpacing: 1,
                         color: context.isDarkMode
-                            ? Constants.kDarkThemeWhiteAccentColor
+                            ? Constants.kDarkThemeTextColor
                             : Constants.kAlternativeTextColor,
-                      ),
-                      title: Text(
-                        'dark'.tr,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 0.017,
-                          letterSpacing: 1,
-                          color: context.isDarkMode
-                              ? Constants.kDarkThemeTextColor
-                              : Constants.kAlternativeTextColor,
-                          fontWeight: FontWeight.normal,
-                        ),
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
-                  },
-                  groupValue: themeController.selectedIndex.value,
-                  onValueChanged: (int? newValue) {
-                    themeController.selectedIndex.value = newValue!;
+                  ),
+                  1: ListTile(
+                    dense: true,
+                    minVerticalPadding: 0.0,
+                    horizontalTitleGap: 0.0,
+                    minLeadingWidth: 0,
+                    leading: Icon(
+                      CustomIcons.moon,
+                      color: context.isDarkMode
+                          ? Constants.kDarkThemeWhiteAccentColor
+                          : Constants.kAlternativeTextColor,
+                    ),
+                    title: Text(
+                      'dark'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.017,
+                        letterSpacing: 1,
+                        color: context.isDarkMode
+                            ? Constants.kDarkThemeTextColor
+                            : Constants.kAlternativeTextColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                },
+                groupValue: themeController.selectedIndex.value,
+                onValueChanged: (int? newValue) {
+                  themeController.selectedIndex.value = newValue!;
 
-                    ThemeService().changeThemeMode();
-                  }),
-            ),
+                  ThemeService().changeThemeMode();
+                }),
           ),
           const SizedBox(
             height: 20.0,
@@ -245,6 +244,37 @@ class SettingsActionsWidget extends StatelessWidget {
               ),
               label: Text(
                 'bug'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.height * 0.022,
+                  letterSpacing: 1,
+                  //color: Constants.kIconColor,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              style: ButtonStyle(
+                foregroundColor: context.isDarkMode
+                    ? MaterialStateProperty.all(
+                        Constants.kDarkThemeWhiteAccentColor)
+                    : MaterialStateProperty.all(
+                        Constants.kAlternativeTextColor),
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                elevation: MaterialStateProperty.all(0),
+                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                //shadowColor: MaterialStateProperty.all(Colors.transparent),
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Get.to(() => NotificationsSettings());
+              },
+              icon: const Icon(
+                Icons.notifications_none_outlined,
+                size: 35,
+              ),
+              label: Text(
+                'notifications'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.height * 0.022,

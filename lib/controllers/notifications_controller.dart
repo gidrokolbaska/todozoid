@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
@@ -23,11 +25,27 @@ class NotificationsController extends GetxController {
     iOS: initializationSettingsIOS,
   );
   late NavigationBarController navigationBarController;
-
+  final amountOfRepeats = 3.obs;
+  final intervalOfRepeats = 15.obs;
   @override
   void onReady() {
     super.onReady();
     navigationBarController = Get.put(NavigationBarController());
+  }
+
+  int initialItemForinterval() {
+    switch (intervalOfRepeats.value) {
+      case 5:
+        return 0;
+      case 10:
+        return 1;
+      case 15:
+        return 2;
+      case 20:
+        return 3;
+      default:
+        return 0;
+    }
   }
 
   @override
@@ -44,6 +62,18 @@ class NotificationsController extends GetxController {
       }
       // selectedNotificationPayload = payload;
       // selectNotificationSubject.add(payload);
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.data()!['amountOfRepeats'] != null &&
+          value.data()!['intervalOfRepeats'] != null) {
+        amountOfRepeats.value = value.data()!['amountOfRepeats'];
+        intervalOfRepeats.value = value.data()!['intervalOfRepeats'];
+      }
     });
   }
 
@@ -67,7 +97,12 @@ class NotificationsController extends GetxController {
               colorized: true,
               largeIcon: const DrawableResourceAndroidBitmap('ic_launcher'),
             ),
-            iOS: const IOSNotificationDetails(threadIdentifier: 'test_ID'),
+            iOS: const IOSNotificationDetails(
+              threadIdentifier: 'test_ID',
+              //badgeNumber: 1,
+              //badgeNumber: 0,
+              //),
+            ),
           ),
           payload: payload,
           androidAllowWhileIdle: true,
