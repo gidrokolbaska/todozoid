@@ -1218,7 +1218,7 @@ class CreateTaskWidget extends StatelessWidget {
                   0);
               //cancel pending notifications
               for (var i = 1;
-                  i < notificationsController.amountOfRepeats.value;
+                  i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
                   notificationsController.cancelNotification(extractedID);
@@ -1230,7 +1230,7 @@ class CreateTaskWidget extends StatelessWidget {
               }
 
               for (var i = 1;
-                  i < notificationsController.amountOfRepeats.value;
+                  i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
                   notificationsController.showScheduledNotification(
@@ -1240,7 +1240,8 @@ class CreateTaskWidget extends StatelessWidget {
                     scheduledTime: scheduledDateTime,
                   );
                 }
-                if (notificationsController.amountOfRepeats.value > 1) {
+                if (notificationsController.amountOfRepeats.value > 1 &&
+                    i > 1) {
                   notificationsController.showScheduledNotification(
                     id: extractedID + i,
                     title: 'Task reminder',
@@ -1269,7 +1270,7 @@ class CreateTaskWidget extends StatelessWidget {
                   0);
               //cancel pending notifications
               for (var i = 1;
-                  i < notificationsController.amountOfRepeats.value;
+                  i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
                   notificationsController.cancelNotification(extractedID);
@@ -1281,7 +1282,7 @@ class CreateTaskWidget extends StatelessWidget {
               }
 
               for (var i = 1;
-                  i < notificationsController.amountOfRepeats.value;
+                  i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
                   notificationsController.showScheduledNotification(
@@ -1291,7 +1292,8 @@ class CreateTaskWidget extends StatelessWidget {
                     scheduledTime: scheduledDateTime,
                   );
                 }
-                if (notificationsController.amountOfRepeats.value > 1) {
+                if (notificationsController.amountOfRepeats.value > 1 &&
+                    i > 1) {
                   notificationsController.showScheduledNotification(
                     id: extractedID + i,
                     title: 'Task reminder',

@@ -99,7 +99,6 @@ class NotificationsController extends GetxController {
             ),
             iOS: const IOSNotificationDetails(
               threadIdentifier: 'test_ID',
-              //badgeNumber: 1,
               //badgeNumber: 0,
               //),
             ),

@@ -132,7 +132,7 @@ class DatabaseController extends GetxController {
   }
 
   deleteTodo(QueryDocumentSnapshot<Todo> queryData) async {
-    for (var i = 1; i < notificationsController.amountOfRepeats.value; i++) {
+    for (var i = 1; i <= notificationsController.amountOfRepeats.value; i++) {
       if (i == 1) {
         await notificationsController.flutterLocalNotificationsPlugin
             .cancel(queryData.reference.id.hashCode);
