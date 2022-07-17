@@ -1101,7 +1101,17 @@ class Item extends StatelessWidget {
                     ),
                   });
                   if (value == true) {
-                    notificationsController.cancelNotification(todoID);
+                    for (var i = 1;
+                        i <= notificationsController.amountOfRepeats.value;
+                        i++) {
+                      if (i == 1) {
+                        notificationsController.cancelNotification(todoID);
+                      }
+                      if (notificationsController.amountOfRepeats.value > 1 &&
+                          i > 1) {
+                        notificationsController.cancelNotification(todoID + i);
+                      }
+                    }
                   }
                 },
               ),
