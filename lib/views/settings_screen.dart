@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:todozoid2/Database/database.dart';
 
 import 'package:todozoid2/consts/theme_service.dart';
 import 'package:todozoid2/controllers/tasks_controller.dart';
 import 'package:todozoid2/controllers/theme_controller.dart';
+import 'package:todozoid2/firebase_options.dart';
 import 'package:todozoid2/helpers/custom_icons_icons.dart';
 import 'package:get/get.dart';
 import 'package:todozoid2/routes/app_pages.dart';
@@ -376,13 +381,62 @@ class SettingsActionsWidget extends StatelessWidget {
           ],
         ),
         Positioned(
+          width: 0.9.sw,
           bottom: 0.03.sh,
-          child: ElevatedButton.icon(
-            onPressed: () async {
-              await handleSignOut();
-            },
-            icon: const Icon(Icons.logout_outlined),
-            label: Text('signOut'.tr),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () async {
+                  await handleSignOut();
+                },
+                icon: const Icon(Icons.logout_outlined),
+                label: Text('signOut'.tr),
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  WriteBatch batch = FirebaseFirestore.instance.batch();
+                  var currentUserDoc = FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid);
+                  await currentUserDoc.collection('categories').get().then(
+                    (querySnapshot) {
+                      for (var document in querySnapshot.docs) {
+                        batch.delete(document.reference);
+                      }
+                    },
+                  );
+                  await currentUserDoc.collection('todos').get().then(
+                    (querySnapshot) {
+                      for (var document in querySnapshot.docs) {
+                        batch.delete(document.reference);
+                      }
+                    },
+                  );
+                  await currentUserDoc.collection('todosDaily').get().then(
+                    (querySnapshot) {
+                      for (var document in querySnapshot.docs) {
+                        batch.delete(document.reference);
+                      }
+                    },
+                  );
+                  batch.commit();
+
+                  await currentUserDoc.delete().then(
+                        (value) async => await FirebaseAuth
+                            .instance.currentUser!
+                            .delete()
+                            .then(
+                              (value) async => Get.offAllNamed(
+                                AppPages.routes[1].name,
+                              ),
+                            ),
+                      );
+                },
+                icon: const Icon(Icons.delete_outline_rounded),
+                label: Text('deleteAccount'.tr),
+              ),
+            ],
           ),
         ),
       ],
@@ -394,6 +448,7 @@ Future handleSignOut() async {
   try {
     return await FirebaseAuth.instance.signOut().then((value) async {
       //Get.deleteAll();
+      //Get.delete<DatabaseController>();
       Get.offAllNamed(AppPages.routes[1].name);
       // Get.back();
     });

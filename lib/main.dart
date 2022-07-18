@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           darkTheme: Themes().darkTheme,
           themeMode: mode,
           home: child,
-          //initialRoute: AppPages.initial,
+          initialRoute: AppPages.initial,
           getPages: AppPages.routes,
 
           //

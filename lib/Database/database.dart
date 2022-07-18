@@ -62,8 +62,22 @@ class DatabaseController extends GetxController {
         var batch = firestore.batch();
         firestore.collection('users').doc(_firebaseAuth.currentUser!.uid).set({
           'email': _firebaseAuth.currentUser!.email,
+          'amountOfRepeats': 3,
+          'intervalOfRepeats': 15,
         });
-
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((value) {
+          if (value['amountOfRepeats'] != null &&
+              value['intervalOfRepeats'] != null) {
+            notificationsController.amountOfRepeats.value =
+                value.data()!['amountOfRepeats'];
+            notificationsController.intervalOfRepeats.value =
+                value.data()!['intervalOfRepeats'];
+          }
+        });
         var categories = firestore
             .collection('users')
             .doc(_firebaseAuth.currentUser!.uid)

@@ -63,18 +63,6 @@ class NotificationsController extends GetxController {
       // selectedNotificationPayload = payload;
       // selectNotificationSubject.add(payload);
     });
-
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) {
-      if (value.data()!['amountOfRepeats'] != null &&
-          value.data()!['intervalOfRepeats'] != null) {
-        amountOfRepeats.value = value.data()!['amountOfRepeats'];
-        intervalOfRepeats.value = value.data()!['intervalOfRepeats'];
-      }
-    });
   }
 
   void showScheduledNotification({

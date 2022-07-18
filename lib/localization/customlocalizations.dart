@@ -67,6 +67,7 @@ class MyLocalizations extends Translations {
           'notifications': 'Notifications',
           'amountOfRepeats': 'Amount of repeats',
           'intervalOfRepeats': 'Interval of repeats (min)',
+          'deleteAccount': 'Delete account',
         },
         'ru_RU': {
           'welcome':
@@ -133,6 +134,7 @@ class MyLocalizations extends Translations {
           'notifications': 'Уведомления',
           'amountOfRepeats': 'Количество повторений',
           'intervalOfRepeats': 'Интервал повторений (мин)',
+          'deleteAccount': 'Удалить аккаунт'
         }
       };
 }
