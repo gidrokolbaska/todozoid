@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:todozoid2/consts/consts.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
-import 'package:todozoid2/widgets/floating_modal.dart';
+import 'package:todozoid2/Database/database.dart';
+import '../consts/consts.dart';
+import '../controllers/notifications_controller.dart';
+import '../widgets/floating_modal.dart';
 
 class NotificationsSettings extends StatelessWidget {
   NotificationsSettings({super.key});
   final NotificationsController notificationsController = Get.find();
+  final DatabaseController databaseController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +94,15 @@ class NotificationsSettings extends StatelessWidget {
                           ),
                         ),
                       );
-
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({
-                        'amountOfRepeats':
-                            notificationsController.amountOfRepeats.value
-                      });
+                      databaseController.updateAmountOfRepeats(
+                          notificationsController.amountOfRepeats.value);
+                      // FirebaseFirestore.instance
+                      //     .collection('users')
+                      //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                      //     .update({
+                      //   'amountOfRepeats':
+                      //       notificationsController.amountOfRepeats.value
+                      // });
                       //print(tasksController.dailyGoal.value);
                     },
                     icon: const Icon(
@@ -183,13 +186,8 @@ class NotificationsSettings extends StatelessWidget {
                         ),
                       );
 
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({
-                        'intervalOfRepeats':
-                            notificationsController.intervalOfRepeats.value
-                      });
+                      databaseController.updateInterval(
+                          notificationsController.intervalOfRepeats.value);
                       //print(tasksController.dailyGoal.value);
                     },
                     icon: const Icon(

@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/controllers/categories_controller.dart';
+import '../Database/database.dart';
+import '../controllers/categories_controller.dart';
 
 import '../models/category.dart';
 import '../models/todo.dart';

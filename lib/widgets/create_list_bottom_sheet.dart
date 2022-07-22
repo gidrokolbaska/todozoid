@@ -8,10 +8,10 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:get/get.dart';
 
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:todozoid2/helpers/custom_icons_icons.dart';
-import 'package:todozoid2/models/list.dart';
-import 'package:todozoid2/models/sublist.dart';
-import 'package:todozoid2/widgets/shake_widget.dart';
+import '../helpers/custom_icons_icons.dart';
+import '../models/list.dart';
+import '../models/sublist.dart';
+import 'shake_widget.dart';
 
 import '../Database/database.dart';
 import '../consts/consts.dart';
@@ -29,7 +29,7 @@ class CreateListBottomSheetWidget extends StatefulWidget {
 
 class _CreateListBottomSheetWidgetState
     extends State<CreateListBottomSheetWidget> with TickerProviderStateMixin {
-  final TasksDiaryController tasksDiaryController = Get.find();
+  final ListsController listsController = Get.find();
   final DatabaseController _databaseController = Get.find();
   final listKey = GlobalKey<AnimatedListState>();
   ScrollController scrollController = ScrollController();
@@ -45,15 +45,14 @@ class _CreateListBottomSheetWidgetState
   void initState() {
     shakeController = ShakeController(vsync: this);
     //Here we perform the checks if list modal view was opened by clicking on the existing list
-    if (tasksDiaryController.listOpenedFromListsScreen.value) {
+    if (listsController.listOpenedFromListsScreen.value) {
       //Assign name of the list
 
       listDescriptionController.text = widget.firestoreData!.data().name;
       //Assign the icon of the list
       if (widget.firestoreData!.data().icon != null) {
-        tasksDiaryController.emojiSelected.value = true;
-        tasksDiaryController.selectedEmoji.value =
-            widget.firestoreData!.data().icon;
+        listsController.emojiSelected.value = true;
+        listsController.selectedEmoji.value = widget.firestoreData!.data().icon;
       }
       //Assign sublists
       if (widget.firestoreData!.data().subLists != null) {
@@ -83,9 +82,9 @@ class _CreateListBottomSheetWidgetState
 
   @override
   void dispose() {
-    tasksDiaryController.emojiSelected.value = false;
-    tasksDiaryController.listOpenedFromListsScreen.value = false;
-    tasksDiaryController.selectedEmoji.value = null;
+    listsController.emojiSelected.value = false;
+    listsController.listOpenedFromListsScreen.value = false;
+    listsController.selectedEmoji.value = null;
     mainFocusNode.dispose();
     super.dispose();
   }
@@ -115,29 +114,29 @@ class _CreateListBottomSheetWidgetState
                   });
                 }
               }
-              tasksDiaryController.listOpenedFromListsScreen.value
+              listsController.listOpenedFromListsScreen.value
                   ? _databaseController.updateList(
                       widget.firestoreData!,
                       {
                         'name': listDescriptionController.text,
                         'sublists': finalListWithSublists,
-                        'icon': tasksDiaryController.emojiSelected.value
-                            ? ' ${tasksDiaryController.selectedEmoji.value} '
+                        'icon': listsController.emojiSelected.value
+                            ? ' ${listsController.selectedEmoji.value} '
                             : null,
                       },
                     )
                   : _databaseController.addList(
                       ListTask(
                         name: listDescriptionController.text,
-                        icon: tasksDiaryController.emojiSelected.value
-                            ? ' ${tasksDiaryController.selectedEmoji.value} '
+                        icon: listsController.emojiSelected.value
+                            ? ' ${listsController.selectedEmoji.value} '
                             : null,
                         subLists: finalListWithSublists,
                       ),
                     );
               Get.back();
             },
-            child: tasksDiaryController.listOpenedFromListsScreen.value
+            child: listsController.listOpenedFromListsScreen.value
                 ? Text(
                     'updateList'.tr,
                     textAlign: TextAlign.left,
@@ -211,14 +210,14 @@ class _CreateListBottomSheetWidgetState
                         child: child,
                       );
                     },
-                    child: tasksDiaryController.emojiSelected.value
+                    child: listsController.emojiSelected.value
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
                                   onPressed: () async {
-                                    tasksDiaryController.selectedEmoji.value =
+                                    listsController.selectedEmoji.value =
                                         await showMaterialModalBottomSheet(
                                       isDismissible: true,
                                       enableDrag: false,
@@ -234,17 +233,15 @@ class _CreateListBottomSheetWidgetState
                                     size: 30,
                                   )),
                               Text(
-                                ' ${tasksDiaryController.selectedEmoji.value!} ',
+                                ' ${listsController.selectedEmoji.value!} ',
                                 style: const TextStyle(
                                   fontSize: 75,
                                 ),
                               ),
                               IconButton(
                                   onPressed: () {
-                                    tasksDiaryController.selectedEmoji.value =
-                                        null;
-                                    tasksDiaryController.emojiSelected.value =
-                                        false;
+                                    listsController.selectedEmoji.value = null;
+                                    listsController.emojiSelected.value = false;
                                   },
                                   icon: const Icon(
                                     Icons.delete_outline_outlined,
@@ -253,7 +250,7 @@ class _CreateListBottomSheetWidgetState
                             ],
                           )
                         : SelectAnImojiButton(
-                            tasksDiaryController: tasksDiaryController,
+                            listsController: listsController,
                           ),
                   ),
                 ),
@@ -268,7 +265,7 @@ class _CreateListBottomSheetWidgetState
                           //and is not executed when todo is opened from TasksScreen and has subtasks>0
 
                           if (subList.length == 1 &&
-                              !tasksDiaryController
+                              !listsController
                                   .listOpenedFromListsScreen.value) {
                             SchedulerBinding.instance
                                 .addPostFrameCallback((timeStamp) {
@@ -463,16 +460,16 @@ class TitleForSubListWidget extends StatelessWidget {
 class SelectAnImojiButton extends StatelessWidget {
   const SelectAnImojiButton({
     Key? key,
-    required this.tasksDiaryController,
+    required this.listsController,
   }) : super(key: key);
 
-  final TasksDiaryController tasksDiaryController;
+  final ListsController listsController;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
         onPressed: () async {
-          tasksDiaryController.selectedEmoji.value =
+          listsController.selectedEmoji.value =
               await showMaterialModalBottomSheet(
             isDismissible: true,
             enableDrag: false,

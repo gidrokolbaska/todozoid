@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:todozoid2/controllers/categories_controller.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
+import '../controllers/categories_controller.dart';
+import '../controllers/notifications_controller.dart';
 
 class HomeBinding extends Bindings {
   @override

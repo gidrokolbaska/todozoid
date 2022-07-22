@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:todozoid2/bindings/home_binding.dart';
-import 'package:todozoid2/bindings/login_binding.dart';
-import 'package:todozoid2/main.dart';
-import 'package:todozoid2/views/home_page.dart';
+import '../bindings/home_binding.dart';
+import '../bindings/login_binding.dart';
+import '../main.dart';
+import '../views/home_page.dart';
 import '../bindings/tasks_diary_binding.dart';
 import '../views/tasks_diary.dart';
 part 'app_routes.dart';

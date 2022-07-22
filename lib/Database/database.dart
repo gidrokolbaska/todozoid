@@ -1,17 +1,25 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
-import 'package:todozoid2/models/category.dart';
-import 'package:todozoid2/models/list.dart';
-import 'package:todozoid2/models/todo.dart';
+import 'package:todozoid2/controllers/tasks_controller.dart';
+import '../controllers/notifications_controller.dart';
+import '../models/category.dart';
+import '../models/list.dart';
+import '../models/todo.dart';
 
 class DatabaseController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late StreamSubscription<ConnectivityResult> subscription;
+  final isConnected = false.obs;
   //CollectionReference users = FirebaseFirestore.instance.collection('users');
   final NotificationsController notificationsController =
       Get.put(NotificationsController());
+  final TasksController tasksController = Get.put(TasksController());
   final _firebaseAuth = FirebaseAuth.instance;
   final todosCollection = FirebaseFirestore.instance
       .collection('users')
@@ -38,16 +46,37 @@ class DatabaseController extends GetxController {
         toFirestore: (list, _) => list.toJson(),
       );
   @override
+  void dispose() {
+    super.dispose();
+    subscription.cancel();
+  }
+
+  @override
   void onInit() async {
     super.onInit();
+
     await createDefaultsForNewUser();
+    subscription = Connectivity().onConnectivityChanged.listen(
+      (ConnectivityResult result) async {
+        if (result == ConnectivityResult.none) {
+          await FirebaseFirestore.instance.disableNetwork();
+
+          isConnected.value = false;
+        } else if (result == ConnectivityResult.mobile ||
+            result == ConnectivityResult.wifi) {
+          await FirebaseFirestore.instance.enableNetwork();
+
+          isConnected.value = true;
+        }
+      },
+    );
   }
 
   Future<bool> checkExist() async {
     var snapshot = await firestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
-        .get();
+        .get(const GetOptions(source: Source.serverAndCache));
 
     if (snapshot.exists) {
       return true;
@@ -64,18 +93,21 @@ class DatabaseController extends GetxController {
           'email': _firebaseAuth.currentUser!.email,
           'amountOfRepeats': 3,
           'intervalOfRepeats': 15,
+          'dailyRequirement': 10,
         });
-        FirebaseFirestore.instance
+        firestore
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get()
+            .get(const GetOptions(source: Source.serverAndCache))
             .then((value) {
           if (value['amountOfRepeats'] != null &&
-              value['intervalOfRepeats'] != null) {
+              value['intervalOfRepeats'] != null &&
+              value['dailyRequirement'] != null) {
             notificationsController.amountOfRepeats.value =
                 value.data()!['amountOfRepeats'];
             notificationsController.intervalOfRepeats.value =
                 value.data()!['intervalOfRepeats'];
+            tasksController.dailyGoal.value = value.data()!['dailyRequirement'];
           }
         });
         var categories = firestore
@@ -107,6 +139,21 @@ class DatabaseController extends GetxController {
         }
         batch.commit();
       }
+      firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get(const GetOptions(source: Source.serverAndCache))
+          .then((value) {
+        if (value['amountOfRepeats'] != null &&
+            value['intervalOfRepeats'] != null &&
+            value['dailyRequirement'] != null) {
+          notificationsController.amountOfRepeats.value =
+              value.data()!['amountOfRepeats'];
+          notificationsController.intervalOfRepeats.value =
+              value.data()!['intervalOfRepeats'];
+          tasksController.dailyGoal.value = value.data()!['dailyRequirement'];
+        }
+      });
       return true;
     } catch (e) {
       return false;
@@ -114,46 +161,44 @@ class DatabaseController extends GetxController {
   }
 
 //CATEGORIES CRUD OPERARIONS
-  addCategory(Category category) async {
+  Future addCategory(Category category) async {
     await categoriesCollection.add(category);
   }
 
-  updateCategory(String catID, String uid, Map<String, Object> data) async {
+  Future updateCategory(
+      String catID, String uid, Map<String, Object> data) async {
     await categoriesCollection.doc(catID).update(data);
   }
 
-  deleteCategory(String catID) async {
+  Future deleteCategory(String catID) async {
     await categoriesCollection.doc(catID).delete();
   }
 
 //TODOS CRUD OPERATIONS
-  Future<int> addTodo(Todo todo, [int? extractedID]) async {
-    await todosCollection.add(todo).then((value) {
-      extractedID = value.id.hashCode;
-    });
-    return extractedID!;
+  Future addTodo(
+    Todo todo,
+  ) async {
+    await todosCollection.add(todo);
   }
 
-  Future<int> updateTodo(
-      QueryDocumentSnapshot<Todo> queryData, Map<String, Object?> data,
-      [int? extractedID]) async {
+  Future updateTodo(
+    QueryDocumentSnapshot<Todo> queryData,
+    Map<String, Object?> data,
+  ) async {
     // await notificationsController.flutterLocalNotificationsPlugin
     //     .cancel(queryData.reference.id.hashCode);
-    await queryData.reference
-        .update(data)
-        .then((value) => extractedID = queryData.reference.id.hashCode);
-    return extractedID!;
+    await queryData.reference.update(data);
   }
 
-  deleteTodo(QueryDocumentSnapshot<Todo> queryData) async {
+  Future deleteTodo(QueryDocumentSnapshot<Todo> queryData) async {
     for (var i = 1; i <= notificationsController.amountOfRepeats.value; i++) {
       if (i == 1) {
         await notificationsController.flutterLocalNotificationsPlugin
-            .cancel(queryData.reference.id.hashCode);
+            .cancel(queryData.data().uniqueNotificationID!);
       }
       if (notificationsController.amountOfRepeats.value > 1 && i > 1) {
         await notificationsController.flutterLocalNotificationsPlugin
-            .cancel(queryData.reference.id.hashCode + i);
+            .cancel(queryData.data().uniqueNotificationID! + i);
       }
     }
 
@@ -161,16 +206,16 @@ class DatabaseController extends GetxController {
   }
 
 //LISTS CRUD OPERATIONS
-  addList(ListTask list) async {
+  Future addList(ListTask list) async {
     await listsCollection.add(list);
   }
 
-  updateList(QueryDocumentSnapshot<ListTask> queryData,
+  Future updateList(QueryDocumentSnapshot<ListTask> queryData,
       Map<String, Object?> data) async {
     await queryData.reference.update(data);
   }
 
-  deleteList(QueryDocumentSnapshot<ListTask> queryData) async {
+  Future deleteList(QueryDocumentSnapshot<ListTask> queryData) async {
     await queryData.reference.delete();
   }
 
@@ -178,5 +223,19 @@ class DatabaseController extends GetxController {
   Future<void> signOut() async {
     //await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
+  }
+
+  Future updateAmountOfRepeats(int value) async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'amountOfRepeats': value});
+  }
+
+  Future updateInterval(int value) async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'intervalOfRepeats': value});
   }
 }

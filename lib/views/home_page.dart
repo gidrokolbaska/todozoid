@@ -5,14 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:todozoid2/Database/database.dart';
+import 'package:todozoid2/controllers/notifications_controller.dart';
+import '../Database/database.dart';
 
-import 'package:todozoid2/controllers/navigation_bar_controller.dart';
-import 'package:todozoid2/controllers/tasks_controller.dart';
+import '../controllers/navigation_bar_controller.dart';
+import '../controllers/tasks_controller.dart';
 
-import 'package:todozoid2/helpers/custom_icons_icons.dart';
+import '../helpers/custom_icons_icons.dart';
 
-import 'package:todozoid2/widgets/drawer_widget.dart';
+import '../widgets/drawer_widget.dart';
 
 import '../consts/consts.dart';
 import '../controllers/categories_controller.dart';
@@ -27,6 +28,8 @@ class HomePageContainer extends StatelessWidget {
   final TasksController tasksController = Get.find();
   final categoriesController =
       Get.lazyPut<CategoriesController>(() => CategoriesController());
+  final NotificationsController notificationsController =
+      Get.put(NotificationsController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +46,23 @@ class HomePageContainer extends StatelessWidget {
           leading: const LeadingWidget(),
           elevation: 0,
         ),
-        body: Obx(
-          () =>
-              // _navigationController.resultingPage(),
-              PageTransitionSwitcher(
-            transitionBuilder: (
-              child,
-              animation,
-              secondaryAnimation,
-            ) {
-              return FadeThroughTransition(
-                //fillColor: Colors.transparent,
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                child: child,
-              );
-            },
-            child: _navigationController.resultingPage(),
-          ),
-        ),
+        body: Obx(() =>
+            // _navigationController.resultingPage(),
+            PageTransitionSwitcher(
+              transitionBuilder: (
+                child,
+                animation,
+                secondaryAnimation,
+              ) {
+                return FadeThroughTransition(
+                  //fillColor: Colors.transparent,
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
+                );
+              },
+              child: _navigationController.resultingPage(),
+            )),
         bottomNavigationBar:
             BottomNavBar(navigationController: _navigationController),
         floatingActionButton: _navigationController.selectedIndex.value == 0 ||

@@ -1,13 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:get/get.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:todozoid2/controllers/navigation_bar_controller.dart';
+
+import 'package:get/get.dart';
+
+import 'navigation_bar_controller.dart';
 
 class NotificationsController extends GetxController {
+  late NavigationBarController navigationBarController;
+  final amountOfRepeats = 3.obs;
+  final intervalOfRepeats = 15.obs;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   static const AndroidInitializationSettings initializationSettingsAndroid =
@@ -24,9 +29,6 @@ class NotificationsController extends GetxController {
     android: initializationSettingsAndroid,
     iOS: initializationSettingsIOS,
   );
-  late NavigationBarController navigationBarController;
-  final amountOfRepeats = 3.obs;
-  final intervalOfRepeats = 15.obs;
   @override
   void onReady() {
     super.onReady();
@@ -50,7 +52,6 @@ class NotificationsController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     tz.initializeTimeZones();
     final locationName = await FlutterNativeTimezone.getLocalTimezone();
 
@@ -63,9 +64,22 @@ class NotificationsController extends GetxController {
       // selectedNotificationPayload = payload;
       // selectNotificationSubject.add(payload);
     });
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    super.onInit();
   }
 
-  void showScheduledNotification({
+  int createUniqueID(int maxValue) {
+    Random random = Random();
+    return random.nextInt(maxValue);
+  }
+
+  void cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  Future showScheduledNotification({
     int? id = 0,
     String? title,
     String? body,
@@ -95,8 +109,4 @@ class NotificationsController extends GetxController {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
-
-  void cancelNotification(int id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
-  }
 }

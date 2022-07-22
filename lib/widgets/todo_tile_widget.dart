@@ -8,8 +8,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
-import 'package:todozoid2/helpers/time_extensions.dart';
+import '../controllers/notifications_controller.dart';
+import '../helpers/time_extensions.dart';
 
 import '../Database/database.dart';
 import '../consts/consts.dart';
@@ -1089,8 +1089,7 @@ class Item extends StatelessWidget {
                 onChanged: (value) async {
                   todo.isDone = value;
 
-                  int? todoID;
-                  todoID = await databaseController.updateTodo(fireStoreData, {
+                  await databaseController.updateTodo(fireStoreData, {
                     'isDone': value,
                     'whenCompleted': Timestamp.fromDate(
                       DateTime(
@@ -1105,11 +1104,13 @@ class Item extends StatelessWidget {
                         i <= notificationsController.amountOfRepeats.value;
                         i++) {
                       if (i == 1) {
-                        notificationsController.cancelNotification(todoID);
+                        notificationsController
+                            .cancelNotification(todo.uniqueNotificationID!);
                       }
                       if (notificationsController.amountOfRepeats.value > 1 &&
                           i > 1) {
-                        notificationsController.cancelNotification(todoID + i);
+                        notificationsController
+                            .cancelNotification(todo.uniqueNotificationID! + i);
                       }
                     }
                   }

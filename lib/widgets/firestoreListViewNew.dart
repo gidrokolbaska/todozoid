@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todozoid2/widgets/firestoreQueryBuilderNew.dart';
+import 'firestoreQueryBuilderNew.dart';
 
 /// A function that builds a widget from a [FirestoreQueryBuilderSnapshot]
 ///

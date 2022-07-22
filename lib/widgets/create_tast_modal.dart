@@ -12,24 +12,22 @@ import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
+import '../Database/database.dart';
+import '../controllers/notifications_controller.dart';
 
-import 'package:todozoid2/helpers/helpers.dart' as helpers;
-import 'package:todozoid2/controllers/categories_controller.dart';
-import 'package:todozoid2/controllers/tasks_controller.dart';
-import 'package:todozoid2/helpers/custom_icons_icons.dart';
-import 'package:todozoid2/helpers/time_extensions.dart';
-import 'package:todozoid2/models/subtodo.dart';
-import 'package:todozoid2/models/todo.dart';
-import 'package:todozoid2/widgets/shake_widget.dart';
+import '../helpers/helpers.dart' as helpers;
+import '../controllers/categories_controller.dart';
+import '../controllers/tasks_controller.dart';
+import '../helpers/custom_icons_icons.dart';
+import '../helpers/time_extensions.dart';
+import '../models/subtodo.dart';
+import '../models/todo.dart';
+import 'shake_widget.dart';
 
 import '../consts/consts.dart';
 import '../models/category.dart';
 import 'calendar picker/flutter_rounded_date_picker.dart';
 import 'categories_modal_fit.dart';
-
-// Choose from any of these available methods
 
 class TaskModalView extends StatefulWidget {
   const TaskModalView(
@@ -1152,6 +1150,7 @@ class CreateTaskWidget extends StatelessWidget {
               Vibrate.feedback(FeedbackType.error);
               return;
             }
+
             //Generating a proper list for subtodos. Maybe it is possible to do it in a more proper way, but that works as well
             List finalListWithSubTodos = [];
             for (int i = 0; i < subtodos.length; i++) {
@@ -1163,9 +1162,26 @@ class CreateTaskWidget extends StatelessWidget {
                 });
               }
             }
-            int? extractedID;
+
+            //generate new random id and assign it to todo
+            int uniqueID = notificationsController.createUniqueID(2147483645);
+            Todo newTodo = Todo(
+              description: todoDescriptionController.text,
+              categoryReference: categoriesController.selectedCategoryID.value,
+              todoDate: tasksController.dateSelected.value
+                  ? Timestamp.fromDate(tasksController.date.value!)
+                  : null,
+              isDone: false,
+              notes: notesController.text.isEmpty ? null : notesController.text,
+              todoTime: tasksController.timeSelected.value
+                  ? Timestamp.fromDate(tasksController.time.value!)
+                  : null,
+              subTodos: finalListWithSubTodos,
+              uniqueNotificationID: uniqueID,
+            );
+
             tasksController.todoOpenedFromTasksScreen.value!
-                ? extractedID = await databaseController.updateTodo(
+                ? databaseController.updateTodo(
                     firestoreData!,
                     {
                       'description': todoDescriptionController.text,
@@ -1183,25 +1199,9 @@ class CreateTaskWidget extends StatelessWidget {
                       'subtodos': finalListWithSubTodos,
                     },
                   )
-                : extractedID = await databaseController.addTodo(
-                    Todo(
-                      description: todoDescriptionController.text,
-                      categoryReference:
-                          categoriesController.selectedCategoryID.value,
-                      todoDate: tasksController.dateSelected.value
-                          ? Timestamp.fromDate(tasksController.date.value!)
-                          : null,
-                      isDone: false,
-                      notes: notesController.text.isEmpty
-                          ? null
-                          : notesController.text,
-                      todoTime: tasksController.timeSelected.value
-                          ? Timestamp.fromDate(tasksController.time.value!)
-                          : null,
-                      subTodos: finalListWithSubTodos,
-                    ),
-                  );
+                : databaseController.addTodo(newTodo);
 
+            //now you can safely schedule notifications here with a random id
             //shchedule notification if date is selected and time is selected
             if (tasksController.dateSelected.value &&
                 tasksController.date.value != null &&
@@ -1216,42 +1216,54 @@ class CreateTaskWidget extends StatelessWidget {
                   0,
                   0,
                   0);
+
               //cancel pending notifications
+
               for (var i = 1;
                   i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
-                  notificationsController.cancelNotification(extractedID);
+                  notificationsController.cancelNotification(uniqueID);
                 }
                 if (notificationsController.amountOfRepeats.value > 1 &&
                     i > 1) {
-                  notificationsController.cancelNotification(extractedID + i);
+                  notificationsController.cancelNotification(uniqueID + i);
                 }
               }
 
               for (var i = 1;
                   i <= notificationsController.amountOfRepeats.value;
                   i++) {
-                if (i == 1) {
-                  notificationsController.showScheduledNotification(
-                    id: extractedID,
-                    title: 'Task reminder',
-                    body: todoDescriptionController.text,
-                    scheduledTime: scheduledDateTime,
-                  );
-                }
                 if (notificationsController.amountOfRepeats.value > 1 &&
                     i > 1) {
-                  notificationsController.showScheduledNotification(
-                    id: extractedID + i,
-                    title: 'Task reminder',
-                    body: todoDescriptionController.text,
-                    scheduledTime: scheduledDateTime.add(
-                      Duration(
-                          minutes:
-                              notificationsController.intervalOfRepeats.value),
-                    ),
-                  );
+                  var finalDateTime = scheduledDateTime.add(Duration(
+                      minutes:
+                          notificationsController.intervalOfRepeats.value));
+                  if (i > 1 && i < 3) {
+                    await notificationsController.showScheduledNotification(
+                      id: uniqueID + i,
+                      title: 'Task reminder',
+                      body: todoDescriptionController.text,
+                      scheduledTime: scheduledDateTime.add(
+                        Duration(
+                            minutes: notificationsController
+                                .intervalOfRepeats.value),
+                      ),
+                    );
+                  }
+
+                  if (i == 3) {
+                    await notificationsController.showScheduledNotification(
+                      id: uniqueID + i,
+                      title: 'Task reminder',
+                      body: todoDescriptionController.text,
+                      scheduledTime: finalDateTime.add(
+                        Duration(
+                            minutes: notificationsController
+                                .intervalOfRepeats.value),
+                      ),
+                    );
+                  }
                 }
               }
             }
@@ -1268,16 +1280,18 @@ class CreateTaskWidget extends StatelessWidget {
                   0,
                   0,
                   0);
+
               //cancel pending notifications
+
               for (var i = 1;
                   i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
-                  notificationsController.cancelNotification(extractedID);
+                  notificationsController.cancelNotification(uniqueID);
                 }
                 if (notificationsController.amountOfRepeats.value > 1 &&
                     i > 1) {
-                  notificationsController.cancelNotification(extractedID + i);
+                  notificationsController.cancelNotification(uniqueID + i);
                 }
               }
 
@@ -1285,25 +1299,44 @@ class CreateTaskWidget extends StatelessWidget {
                   i <= notificationsController.amountOfRepeats.value;
                   i++) {
                 if (i == 1) {
-                  notificationsController.showScheduledNotification(
-                    id: extractedID,
+                  await notificationsController.showScheduledNotification(
+                    id: uniqueID,
                     title: 'Task reminder',
                     body: todoDescriptionController.text,
                     scheduledTime: scheduledDateTime,
                   );
                 }
+
                 if (notificationsController.amountOfRepeats.value > 1 &&
                     i > 1) {
-                  notificationsController.showScheduledNotification(
-                    id: extractedID + i,
-                    title: 'Task reminder',
-                    body: todoDescriptionController.text,
-                    scheduledTime: scheduledDateTime.add(
-                      Duration(
-                          minutes:
-                              notificationsController.intervalOfRepeats.value),
-                    ),
-                  );
+                  var finalDateTime = scheduledDateTime.add(Duration(
+                      minutes:
+                          notificationsController.intervalOfRepeats.value));
+                  if (i > 1 && i < 3) {
+                    await notificationsController.showScheduledNotification(
+                      id: uniqueID + i,
+                      title: 'Task reminder',
+                      body: todoDescriptionController.text,
+                      scheduledTime: scheduledDateTime.add(
+                        Duration(
+                            minutes: notificationsController
+                                .intervalOfRepeats.value),
+                      ),
+                    );
+                  }
+
+                  if (i == 3) {
+                    await notificationsController.showScheduledNotification(
+                      id: uniqueID + i,
+                      title: 'Task reminder',
+                      body: todoDescriptionController.text,
+                      scheduledTime: finalDateTime.add(
+                        Duration(
+                            minutes: notificationsController
+                                .intervalOfRepeats.value),
+                      ),
+                    );
+                  }
                 }
               }
             }

@@ -7,8 +7,8 @@ import 'package:focused_menu/modals.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:todozoid2/helpers/custom_icons_icons.dart';
-import 'package:todozoid2/widgets/firestoreQueryBuilderNew.dart';
+import '../helpers/custom_icons_icons.dart';
+import '../widgets/firestoreQueryBuilderNew.dart';
 
 import '../Database/database.dart';
 import '../consts/consts.dart';
@@ -30,8 +30,7 @@ class _ListsScreenState extends State<ListsScreen> {
 
   final DatabaseController databaseController = Get.find();
 
-  final TasksDiaryController tasksDiaryController =
-      Get.put(TasksDiaryController());
+  final ListsController listsController = Get.put(ListsController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +83,7 @@ class _ListsScreenState extends State<ListsScreen> {
                     child: ListsScreenElement(
                         index: index,
                         snapshot: snapshot,
-                        tasksDiaryController: tasksDiaryController,
+                        listsController: listsController,
                         databaseController: databaseController,
                         list: list),
                   ),
@@ -105,14 +104,14 @@ class _ListsScreenState extends State<ListsScreen> {
 class ListsScreenElement extends StatelessWidget {
   const ListsScreenElement({
     Key? key,
-    required this.tasksDiaryController,
+    required this.listsController,
     required this.databaseController,
     required this.list,
     required this.snapshot,
     required this.index,
   }) : super(key: key);
 
-  final TasksDiaryController tasksDiaryController;
+  final ListsController listsController;
   final DatabaseController databaseController;
   final ListTask list;
   final FirestoreQueryBuilderSnapshot<ListTask> snapshot;
@@ -137,7 +136,7 @@ class ListsScreenElement extends StatelessWidget {
             title: Text('open'.tr),
             trailingIcon: const Icon(Icons.open_in_new),
             onPressed: () {
-              tasksDiaryController.listOpenedFromListsScreen.value = true;
+              listsController.listOpenedFromListsScreen.value = true;
               showBarModalBottomSheet(
                 isDismissible: false,
                 enableDrag: false,
@@ -226,7 +225,7 @@ class ListsScreenElement extends StatelessWidget {
         child: InkWell(
           enableFeedback: true,
           onTap: () {
-            tasksDiaryController.listOpenedFromListsScreen.value = true;
+            listsController.listOpenedFromListsScreen.value = true;
             showBarModalBottomSheet(
               isDismissible: false,
               enableDrag: false,

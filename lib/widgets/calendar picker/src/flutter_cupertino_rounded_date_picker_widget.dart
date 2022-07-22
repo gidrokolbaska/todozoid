@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-import 'package:todozoid2/controllers/tasks_controller.dart';
+import '../../../controllers/tasks_controller.dart';
 import '../../../consts/consts.dart';
 import 'era_mode.dart';
 

@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/models/todo.dart';
-import 'package:todozoid2/widgets/firestoreQueryBuilderNew.dart';
+import '../Database/database.dart';
+import '../models/todo.dart';
+import '../widgets/firestoreQueryBuilderNew.dart';
 import '../consts/consts.dart';
 import '../widgets/minimal_item_from_task_diary.dart';
 

@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:get/get.dart';
 
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/controllers/categories_controller.dart';
+import '../Database/database.dart';
+import '../controllers/categories_controller.dart';
 
-import 'package:todozoid2/models/category.dart';
-import 'package:todozoid2/widgets/shake_widget.dart';
+import '../models/category.dart';
+import 'shake_widget.dart';
 
 class CreateCategoryModalBottomSheet extends StatefulWidget {
   const CreateCategoryModalBottomSheet({

@@ -6,16 +6,16 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 
-import 'package:todozoid2/Database/database.dart';
+import '../Database/database.dart';
 
-import 'package:todozoid2/controllers/categories_controller.dart';
-import 'package:todozoid2/helpers/custom_icons_icons.dart';
-import 'package:todozoid2/models/category.dart';
-import 'package:todozoid2/views/settings_screen.dart';
-import 'package:todozoid2/views/tasks_diary.dart';
-import 'package:todozoid2/widgets/category_edit_modal.dart';
-import 'package:todozoid2/widgets/custom_slidable_action.dart';
-import 'package:todozoid2/widgets/modal_fit.dart';
+import '../controllers/categories_controller.dart';
+import '../helpers/custom_icons_icons.dart';
+import '../models/category.dart';
+import '../views/settings_screen.dart';
+import '../views/tasks_diary.dart';
+import 'category_edit_modal.dart';
+import 'custom_slidable_action.dart';
+import 'modal_fit.dart';
 
 import '../consts/consts.dart';
 
@@ -45,7 +45,7 @@ class NavDrawer extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {
                     Scaffold.of(context).closeDrawer();
-                    Get.to(() => SettingsScreen());
+                    Get.to(() => const SettingsScreen());
                   },
                   icon: Icon(
                     CustomIcons.settings,

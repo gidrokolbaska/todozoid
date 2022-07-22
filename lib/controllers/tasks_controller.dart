@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -9,19 +7,7 @@ class TasksController extends GetxController {
   @override
   void onInit() async {
     await initializeDateFormatting(Get.locale!.languageCode);
-
     super.onInit();
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('todosDaily')
-        .doc('dailyRequirement')
-        .get()
-        .then((value) {
-      if (value.data() != null) {
-        dailyGoal.value = value.data()!['amount'];
-      }
-    });
   }
 
   final completed = 6.obs;

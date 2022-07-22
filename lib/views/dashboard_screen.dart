@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/controllers/navigation_bar_controller.dart';
-import 'package:todozoid2/controllers/tasks_controller.dart';
+import '../Database/database.dart';
+import '../controllers/navigation_bar_controller.dart';
+import '../controllers/tasks_controller.dart';
 import 'package:get/get.dart';
-import 'package:todozoid2/helpers/time_extensions.dart';
-import 'package:todozoid2/models/todo.dart';
-import 'package:todozoid2/widgets/firestoreQueryBuilderNew.dart';
+import '../helpers/time_extensions.dart';
+import '../models/todo.dart';
+import '../widgets/firestoreQueryBuilderNew.dart';
 import '../consts/consts.dart';
 
 class DashboardScreen extends StatelessWidget {

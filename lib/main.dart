@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/i10n.dart';
 import 'package:get/get.dart';
 
-import 'package:todozoid2/views/home_page.dart';
+import 'views/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'consts/theme_service.dart';
 import 'consts/themes.dart';
@@ -26,6 +29,10 @@ void main() async {
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
 
   runApp(MyApp(mode));
@@ -64,7 +71,7 @@ class MyApp extends StatelessWidget {
           theme: Themes().lightTheme,
           darkTheme: Themes().darkTheme,
           themeMode: mode,
-          home: child,
+          //home: child,
           initialRoute: AppPages.initial,
           getPages: AppPages.routes,
 
@@ -84,6 +91,7 @@ class AuthGate extends StatelessWidget {
       scheme: 'https',
       host: 'gist.github.com',
       path: '/gidrokolbaska/57d39fa38142adc21039801f44ea6ee3');
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -94,11 +102,6 @@ class AuthGate extends StatelessWidget {
 
         if (!snapshot.hasData) {
           return SignInScreen(
-            // actions: [
-            //   SignedOutAction((context) {
-            //     Get.back();
-            //   })
-            // ],
             providerConfigs: [
               GoogleProviderConfiguration(
                   clientId: Platform.isIOS
@@ -150,9 +153,6 @@ class AuthGate extends StatelessWidget {
             },
           );
         }
-
-        // Render application if authenticated
-        //print(snapshot.data!.email);
 
         return HomePageContainer();
       },

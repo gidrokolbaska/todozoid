@@ -4,12 +4,12 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:todozoid2/controllers/tasks_diary_controller.dart';
+import '../controllers/tasks_diary_controller.dart';
 import '../consts/consts.dart';
 
 class EmojiPickerBottomSheet extends StatelessWidget {
   EmojiPickerBottomSheet({Key? key}) : super(key: key);
-  final TasksDiaryController tasksDiaryController = Get.find();
+  final ListsController listsController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -18,7 +18,7 @@ class EmojiPickerBottomSheet extends StatelessWidget {
         onEmojiSelected: (category, emoji) {
           // Do something when emoji is tapped
           //print(emoji.emoji);
-          tasksDiaryController.emojiSelected.value = true;
+          listsController.emojiSelected.value = true;
           Get.back(result: emoji.emoji);
         },
         // onBackspacePressed: () {

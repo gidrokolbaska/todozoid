@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todozoid2/controllers/tasks_controller.dart';
+
+import '../../../controllers/tasks_controller.dart';
 
 class FlutterRoundedButtonAction extends StatelessWidget {
   final String? textButtonNegative;

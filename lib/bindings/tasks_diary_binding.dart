@@ -7,7 +7,7 @@ class TasksDiaryBinding extends Bindings {
   void dependencies() {
     // Get.put(CategoriesController());
 
-    Get.put(() => TasksDiaryController());
+    Get.put(() => ListsController());
     //Get.putAsync<CategoriesController>(() async => CategoriesController());
   }
 }

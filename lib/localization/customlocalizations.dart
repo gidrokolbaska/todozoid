@@ -68,6 +68,16 @@ class MyLocalizations extends Translations {
           'amountOfRepeats': 'Amount of repeats',
           'intervalOfRepeats': 'Interval of repeats (min)',
           'deleteAccount': 'Delete account',
+          'alert': 'Alert',
+          'alertDescription':
+              'Account deletion requires an internet connection',
+          'warning': 'Warning',
+          'areYouSure':
+              'Are you sure that you want to delete your data from an application?',
+          'yes': 'Yes (requires re-authentication)',
+          'no': 'No',
+          'error': 'Error',
+          'sameAccount': 'Use the same account for re-authentication',
         },
         'ru_RU': {
           'welcome':
@@ -134,7 +144,18 @@ class MyLocalizations extends Translations {
           'notifications': 'Уведомления',
           'amountOfRepeats': 'Количество повторений',
           'intervalOfRepeats': 'Интервал повторений (мин)',
-          'deleteAccount': 'Удалить аккаунт'
+          'deleteAccount': 'Удалить аккаунт',
+          'alert': 'Внимание',
+          'alertDescription':
+              'Для удаления аккаунта необходимо интернет-соединение',
+          'warning': 'Внимание',
+          'areYouSure':
+              'Вы действительно хотите удалить данные своего аккаунта из приложения?',
+          'yes': 'Да (требуется повторная аутентификация)',
+          'no': 'Нет',
+          'error': 'Ошибка',
+          'sameAccount':
+              'Используйте тот же аккаунт для повторной аутентификации',
         }
       };
 }

@@ -7,17 +7,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:get/get.dart';
 
-import 'package:todozoid2/Database/database.dart';
-import 'package:todozoid2/controllers/categories_controller.dart';
-import 'package:todozoid2/controllers/notifications_controller.dart';
+import '../Database/database.dart';
+import '../controllers/categories_controller.dart';
+import '../controllers/notifications_controller.dart';
 
-import 'package:todozoid2/controllers/tasks_controller.dart';
+import '../controllers/tasks_controller.dart';
 
-import 'package:todozoid2/models/category.dart';
+import '../models/category.dart';
 
-import 'package:todozoid2/models/todo.dart';
+import '../models/todo.dart';
 
-import 'package:todozoid2/widgets/firestoreQueryBuilderNew.dart';
+import '../widgets/firestoreQueryBuilderNew.dart';
 
 import '../widgets/todo_tile_widget.dart';
 
@@ -102,6 +102,7 @@ class TasksScreen extends StatelessWidget {
                     }
 
                     Todo todo = todoSnapshot.docs[index].data();
+
                     return FirestoreQueryBuilderNew<Category>(
                       query: databaseController.categoriesCollection,
                       builder: (context, snapshot, child) {

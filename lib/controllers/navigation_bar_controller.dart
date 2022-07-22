@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todozoid2/views/dashboard_screen.dart';
-import 'package:todozoid2/views/lists_screen.dart';
+import '../views/dashboard_screen.dart';
+import '../views/lists_screen.dart';
 
-import 'package:todozoid2/views/tasks_screen.dart';
+import '../views/tasks_screen.dart';
 
 class NavigationBarController extends GetxController {
   final selectedIndex = 1.obs;

@@ -10,6 +10,7 @@ class Todo {
   bool? isDone;
   Timestamp? whenCompleted;
   String? notes;
+  int? uniqueNotificationID;
   Todo({
     this.categoryReference,
     this.description,
@@ -19,6 +20,7 @@ class Todo {
     this.todoTime,
     this.subTodos,
     this.whenCompleted,
+    this.uniqueNotificationID,
   });
 
   Todo.fromJson(Map<String, Object?> json)
@@ -36,6 +38,9 @@ class Todo {
           whenCompleted: json['whenCompleted'] != null
               ? json['whenCompleted'] as Timestamp
               : null,
+          uniqueNotificationID: json['uniqueNotificationID'] != null
+              ? json['uniqueNotificationID'] as int
+              : null,
         );
   Map<String, Object?> toJson() {
     return {
@@ -46,7 +51,8 @@ class Todo {
       'isDone': isDone,
       'time': todoTime,
       'subtodos': subTodos,
-      'whenCompleted': whenCompleted
+      'whenCompleted': whenCompleted,
+      'uniqueNotificationID': uniqueNotificationID,
     };
   }
 }
