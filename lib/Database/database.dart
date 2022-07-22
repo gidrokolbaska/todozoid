@@ -16,11 +16,12 @@ class DatabaseController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late StreamSubscription<ConnectivityResult> subscription;
   final isConnected = false.obs;
-  //CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   final NotificationsController notificationsController =
       Get.put(NotificationsController());
   final TasksController tasksController = Get.put(TasksController());
   final _firebaseAuth = FirebaseAuth.instance;
+
   final todosCollection = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -45,16 +46,10 @@ class DatabaseController extends GetxController {
         fromFirestore: (snapshot, _) => ListTask.fromJson(snapshot.data()!),
         toFirestore: (list, _) => list.toJson(),
       );
-  @override
-  void dispose() {
-    super.dispose();
-    subscription.cancel();
-  }
 
   @override
   void onInit() async {
     super.onInit();
-
     await createDefaultsForNewUser();
     subscription = Connectivity().onConnectivityChanged.listen(
       (ConnectivityResult result) async {
@@ -70,6 +65,12 @@ class DatabaseController extends GetxController {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    subscription.cancel();
   }
 
   Future<bool> checkExist() async {
@@ -228,14 +229,14 @@ class DatabaseController extends GetxController {
   Future updateAmountOfRepeats(int value) async {
     FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(_firebaseAuth.currentUser!.uid)
         .update({'amountOfRepeats': value});
   }
 
   Future updateInterval(int value) async {
     FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(_firebaseAuth.currentUser!.uid)
         .update({'intervalOfRepeats': value});
   }
 }

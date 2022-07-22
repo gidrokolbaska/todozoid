@@ -154,7 +154,7 @@ class AuthGate extends StatelessWidget {
           );
         }
 
-        return HomePageContainer();
+        return Container();
       },
     );
   }

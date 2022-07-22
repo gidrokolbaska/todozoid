@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import '../bindings/home_binding.dart';
-import '../bindings/login_binding.dart';
 import '../main.dart';
 import '../views/home_page.dart';
 import '../bindings/tasks_diary_binding.dart';
@@ -21,7 +20,6 @@ class AppPages {
     GetPage(
       name: _Paths.login,
       page: () => AuthGate(),
-      binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.tasksDiary,
