@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/i10n.dart';
 import 'package:get/get.dart';
+import 'package:todozoid2/views/home_page.dart';
 
-import 'views/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'consts/theme_service.dart';
 import 'consts/themes.dart';
@@ -63,9 +63,12 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           locale: locale,
+          fallbackLocale: const Locale('en', 'US'),
           supportedLocales: const [
             Locale('en', 'US'), // English
             Locale('ru', 'RU'), // Russian
+            Locale('de', 'DE'), // German
+            Locale('cs', 'CS'), // Czech
           ],
           theme: Themes().lightTheme,
           darkTheme: Themes().darkTheme,
@@ -152,7 +155,7 @@ class AuthGate extends StatelessWidget {
           );
         }
 
-        return Container();
+        return HomePageContainer();
       },
     );
   }

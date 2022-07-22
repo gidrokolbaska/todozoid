@@ -61,11 +61,7 @@ class NotificationsController extends GetxController {
       if (payload != null) {
         navigationBarController.selectedIndex.value = 0;
       }
-      // selectedNotificationPayload = payload;
-      // selectNotificationSubject.add(payload);
     });
-    final List<PendingNotificationRequest> pendingNotificationRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
 
     super.onInit();
   }

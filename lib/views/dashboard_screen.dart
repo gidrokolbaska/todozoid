@@ -120,14 +120,16 @@ class TasksCompletedThisWeek extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'thisweek'.tr,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: Get.isDarkMode
-                    ? Constants.kDarkThemeTextColorAlternative
-                    : Constants.kBlackTextOnWhiteBGColor,
-                fontWeight: FontWeight.bold,
+            FittedBox(
+              child: Text(
+                'thisweek'.tr,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Get.isDarkMode
+                      ? Constants.kDarkThemeTextColorAlternative
+                      : Constants.kBlackTextOnWhiteBGColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(

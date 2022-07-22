@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -221,14 +220,17 @@ class _SettingsActionsWidgetState extends State<SettingsActionsWidget> {
                 Icons.reviews_outlined,
                 size: 35,
               ),
-              label: Text(
-                'review'.tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.height * 0.022,
-                  letterSpacing: 1,
-                  //color: Constants.kIconColor,
-                  fontWeight: FontWeight.normal,
+              label: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'review'.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.022,
+                    letterSpacing: 1,
+                    //color: Constants.kIconColor,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
               style: ButtonStyle(
@@ -269,14 +271,16 @@ class _SettingsActionsWidgetState extends State<SettingsActionsWidget> {
                 Icons.bug_report_outlined,
                 size: 35,
               ),
-              label: Text(
-                'bug'.tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.height * 0.022,
-                  letterSpacing: 1,
-                  //color: Constants.kIconColor,
-                  fontWeight: FontWeight.normal,
+              label: FittedBox(
+                child: Text(
+                  'bug'.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.022,
+                    letterSpacing: 1,
+                    //color: Constants.kIconColor,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
               style: ButtonStyle(

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -109,14 +107,17 @@ class NotificationsSettings extends StatelessWidget {
                       Icons.repeat_one_rounded,
                       size: 35,
                     ),
-                    label: Text(
-                      'amountOfRepeats'.tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.022,
-                        letterSpacing: 1,
-                        //color: Constants.kIconColor,
-                        fontWeight: FontWeight.normal,
+                    label: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        'amountOfRepeats'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.022,
+                          letterSpacing: 1,
+                          //color: Constants.kIconColor,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                     style: ButtonStyle(
@@ -194,14 +195,17 @@ class NotificationsSettings extends StatelessWidget {
                       Icons.av_timer_outlined,
                       size: 35,
                     ),
-                    label: Text(
-                      'intervalOfRepeats'.tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.022,
-                        letterSpacing: 1,
-                        //color: Constants.kIconColor,
-                        fontWeight: FontWeight.normal,
+                    label: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        'intervalOfRepeats'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.022,
+                          letterSpacing: 1,
+                          //color: Constants.kIconColor,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                     style: ButtonStyle(
