@@ -9,6 +9,8 @@ This app is basically a TODO app which helps you track your activities. It is al
 # 📙 Supported languages
 * 🇷🇺 Russian
 * 🇺🇸 English
+* 🇨🇿 Czech
+* 🇩🇪 German
 * More to come in the future
 
 # 📸 Screenshots
