@@ -18,7 +18,7 @@ import '../widgets/drawer_widget.dart';
 import '../consts/consts.dart';
 import '../controllers/categories_controller.dart';
 import '../widgets/create_list_bottom_sheet.dart';
-import '../widgets/create_tast_modal.dart';
+import '../widgets/create_task_modal.dart';
 
 class HomePageContainer extends StatelessWidget {
   HomePageContainer({Key? key}) : super(key: key);
@@ -33,90 +33,84 @@ class HomePageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        resizeToAvoidBottomInset: false,
-        drawer: NavDrawer(),
-        appBar: AppBar(
-          centerTitle: false,
-          title: Title(
-            navigationController: _navigationController,
-            tasksController: tasksController,
-          ),
-          leading: const LeadingWidget(),
-          elevation: 0,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      drawer: NavDrawer(),
+      appBar: AppBar(
+        centerTitle: false,
+        title: Title(
+          navigationController: _navigationController,
+          tasksController: tasksController,
         ),
-        body: Obx(() =>
-            // _navigationController.resultingPage(),
-            PageTransitionSwitcher(
-              transitionBuilder: (
-                child,
-                animation,
-                secondaryAnimation,
-              ) {
-                return FadeThroughTransition(
-                  //fillColor: Colors.transparent,
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  child: child,
-                );
-              },
-              child: _navigationController.resultingPage(),
-            )),
-        bottomNavigationBar:
-            BottomNavBar(navigationController: _navigationController),
-        floatingActionButton: _navigationController.selectedIndex.value == 0 ||
-                _navigationController.selectedIndex.value == 2
-            ? FloatingActionButton(
-                enableFeedback: false,
-                onPressed: () {
-                  showBarModalBottomSheet(
-                    isDismissible: false,
-                    enableDrag: false,
-                    expand: true,
-                    context: context,
-                    topControl: Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        splashRadius: 1,
-                        visualDensity: VisualDensity.compact,
-                        onPressed: () => Get.back(),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 30.0,
-                      ),
-                    ),
-                    backgroundColor: Colors.transparent,
-                    builder: (context) =>
-                        _navigationController.selectedIndex.value == 0
-                            ? const TaskModalView()
-                            : const CreateListBottomSheetWidget(),
-                  );
-                  // showModalBottomSheet(
-                  //   isScrollControlled: true,
-                  //   isDismissible: false,
-                  //   enableDrag: false,
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return const TaskModalView();
-                  //   },
-                  //   backgroundColor: context.isDarkMode
-                  //       ? Constants.kDarkThemeBGColor
-                  //       : Constants.kGrayBgColor,
-                  //   shape: const RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.only(
-                  //         topLeft: Radius.circular(24.0),
-                  //         topRight: Radius.circular(24.0)),
-                  //   ),
-                  // );
-                },
-                child: Icon(CustomIcons.plus,
-                    color: context.isDarkMode
-                        ? Constants.kDarkThemeWhiteAccentColor
-                        : Constants.kLightGrayColor2),
-              )
-            : null,
+        leading: const LeadingWidget(),
+        elevation: 0,
+      ),
+      body: Obx(() =>
+          // _navigationController.resultingPage(),
+          PageTransitionSwitcher(
+            transitionBuilder: (
+              child,
+              animation,
+              secondaryAnimation,
+            ) {
+              return FadeThroughTransition(
+                //fillColor: Colors.transparent,
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              );
+            },
+            child: _navigationController.resultingPage(),
+          )),
+      bottomNavigationBar:
+          BottomNavBar(navigationController: _navigationController),
+      floatingActionButton: MyConditionalFab(
+        controller: _navigationController,
       ),
     );
+  }
+}
+
+class MyConditionalFab extends StatelessWidget {
+  const MyConditionalFab({
+    super.key,
+    required this.controller,
+  });
+  final NavigationBarController controller;
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => controller.selectedIndex.value == 0 ||
+            controller.selectedIndex.value == 2
+        ? FloatingActionButton(
+            enableFeedback: false,
+            onPressed: () {
+              showBarModalBottomSheet(
+                isDismissible: false,
+                enableDrag: false,
+                expand: true,
+                context: context,
+                topControl: Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    splashRadius: 1,
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    iconSize: 30.0,
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+                builder: (context) => controller.selectedIndex.value == 0
+                    ? const TaskModalView()
+                    : const CreateListBottomSheetWidget(),
+              );
+            },
+            child: Icon(CustomIcons.plus,
+                color: context.isDarkMode
+                    ? Constants.kDarkThemeWhiteAccentColor
+                    : Constants.kLightGrayColor2),
+          )
+        : const SizedBox.shrink());
   }
 }
 

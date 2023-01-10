@@ -19,7 +19,7 @@ import '../helpers/custom_icons_icons.dart';
 import '../models/category.dart';
 import '../models/todo.dart';
 import 'categories_modal_fit.dart';
-import 'create_tast_modal.dart';
+import 'create_task_modal.dart';
 import 'custom_slidable_action.dart';
 
 class Item extends StatelessWidget {

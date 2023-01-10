@@ -192,14 +192,10 @@ class DatabaseController extends GetxController {
   }
 
   Future deleteTodo(QueryDocumentSnapshot<Todo> queryData) async {
-    for (var i = 1; i <= notificationsController.amountOfRepeats.value; i++) {
-      if (i == 1) {
+    if (queryData.data().uniqueNotificationID != null) {
+      for (var i = 0; i < notificationsController.amountOfRepeats.value; i++) {
         await notificationsController.flutterLocalNotificationsPlugin
             .cancel(queryData.data().uniqueNotificationID!);
-      }
-      if (notificationsController.amountOfRepeats.value > 1 && i > 1) {
-        await notificationsController.flutterLocalNotificationsPlugin
-            .cancel(queryData.data().uniqueNotificationID! + i);
       }
     }
 

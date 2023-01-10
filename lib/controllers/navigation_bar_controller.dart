@@ -21,6 +21,7 @@ class NavigationBarController extends GetxController {
   changePage(int index) {
     if (selectedIndex.value != index) {
       selectedIndex.value = index;
+      update(['floatingactionbutton']);
     } else {
       return;
     }

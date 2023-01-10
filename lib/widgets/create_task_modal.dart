@@ -57,6 +57,7 @@ class _TaskModalViewState extends State<TaskModalView>
   final TasksController _tasksController = Get.find();
   final DatabaseController _databaseController = Get.find();
   final NotificationsController _notificationsController = Get.find();
+  int? existingNotificationID;
   var type = FeedbackType.medium;
   late ShakeController _shakeController;
   @override
@@ -108,6 +109,9 @@ class _TaskModalViewState extends State<TaskModalView>
           subtaskShakeControllers.insert(i, ShakeController(vsync: this));
         }
       }
+      //Assign notification id
+      existingNotificationID =
+          widget.fireStoreData!.data().uniqueNotificationID;
     }
     Future.delayed(const Duration(milliseconds: 350))
         .then((value) => mainFocusNode.requestFocus());
@@ -160,6 +164,7 @@ class _TaskModalViewState extends State<TaskModalView>
             todoDescriptionController: todoDescriptionController,
             shakeController: _shakeController,
             databaseController: _databaseController,
+            existingNotificationID: existingNotificationID,
             subtaskTextEditingController: subtaskTextEditingController,
             notificationsController: _notificationsController,
           ),
@@ -704,7 +709,7 @@ class _TimeSelectorWidgetState extends State<TimeSelectorWidget> {
   }
 }
 
-class DateSelectorWidget extends StatelessWidget {
+class DateSelectorWidget extends StatefulWidget {
   const DateSelectorWidget({
     Key? key,
     required TasksController tasksController,
@@ -713,6 +718,11 @@ class DateSelectorWidget extends StatelessWidget {
 
   final TasksController _tasksController;
 
+  @override
+  State<DateSelectorWidget> createState() => _DateSelectorWidgetState();
+}
+
+class _DateSelectorWidgetState extends State<DateSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -747,9 +757,9 @@ class DateSelectorWidget extends StatelessWidget {
               FocusScope.of(context).unfocus();
               await Future.delayed(const Duration(milliseconds: 200));
             }
-            _tasksController.date.value = await showRoundedDatePicker(
+            widget._tasksController.date.value = await showRoundedDatePicker(
               context: context,
-              initialDate: _tasksController.date.value,
+              initialDate: widget._tasksController.date.value,
               listDateDisabled: helpers.getDaysInBeteween(
                   DateTime(DateTime.now().year, DateTime.now().month, 1),
                   DateTime.now()),
@@ -764,8 +774,8 @@ class DateSelectorWidget extends StatelessWidget {
               textActionButton: "DELETE DATE",
               onTapActionButton: () {
                 Navigator.of(context).pop(null);
-                _tasksController.dateSelected.value = false;
-                _tasksController.date.value = null;
+                widget._tasksController.dateSelected.value = false;
+                widget._tasksController.date.value = null;
               },
               theme: ThemeData(
                 primaryColor: context.isDarkMode
@@ -894,9 +904,10 @@ class DateSelectorWidget extends StatelessWidget {
                     : Constants.kWhiteBgColor,
               ),
             );
+            if (!mounted) return;
             FocusScope.of(context).requestFocus();
-            if (_tasksController.date.value != null) {
-              _tasksController.dateSelected.value = true;
+            if (widget._tasksController.date.value != null) {
+              widget._tasksController.dateSelected.value = true;
             }
           },
           child: Container(
@@ -916,9 +927,9 @@ class DateSelectorWidget extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 5.0),
                     child: Obx(
                       () => Text(
-                        _tasksController.dateSelected.value
+                        widget._tasksController.dateSelected.value
                             ? DateFormat.yMMMd(Platform.localeName)
-                                .format(_tasksController.date.value!)
+                                .format(widget._tasksController.date.value!)
                             : 'selectDay'.tr,
                         textAlign: TextAlign.left,
                         maxLines: 1,
@@ -943,7 +954,7 @@ class DateSelectorWidget extends StatelessWidget {
   }
 }
 
-class CategorySelectorWidget extends StatelessWidget {
+class CategorySelectorWidget extends StatefulWidget {
   const CategorySelectorWidget({
     Key? key,
     required this.categoriesController,
@@ -951,6 +962,11 @@ class CategorySelectorWidget extends StatelessWidget {
 
   final CategoriesController categoriesController;
 
+  @override
+  State<CategorySelectorWidget> createState() => _CategorySelectorWidgetState();
+}
+
+class _CategorySelectorWidgetState extends State<CategorySelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -1001,6 +1017,7 @@ class CategorySelectorWidget extends StatelessWidget {
                     topRight: Radius.circular(24.0)),
               ),
             );
+            if (!mounted) return;
             FocusScope.of(context).requestFocus();
           },
           child: Container(
@@ -1023,11 +1040,11 @@ class CategorySelectorWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
 
-                      color: categoriesController
+                      color: widget.categoriesController
                                   .selectedCategoryForNewTask!.value ==
                               null
                           ? Colors.grey
-                          : Color(categoriesController
+                          : Color(widget.categoriesController
                               .selectedCategoryForNewTask!.value!.color),
                       //     0
                       // ? Colors.grey
@@ -1039,7 +1056,7 @@ class CategorySelectorWidget extends StatelessWidget {
                 ),
                 Obx(
                   () => Expanded(
-                    child: categoriesController
+                    child: widget.categoriesController
                                 .selectedCategoryForNewTask!.value ==
                             null
                         ? Text(
@@ -1050,7 +1067,7 @@ class CategorySelectorWidget extends StatelessWidget {
                             overflow: TextOverflow.fade,
                           )
                         : Text(
-                            categoriesController
+                            widget.categoriesController
                                 .selectedCategoryForNewTask!.value!.name,
                             textAlign: TextAlign.center,
                             maxLines: 1,
@@ -1124,6 +1141,7 @@ class CreateTaskWidget extends StatelessWidget {
     required this.notesController,
     required this.subtodos,
     required this.subtaskTextEditingController,
+    required this.existingNotificationID,
     this.firestoreData,
     required this.notificationsController,
   })  : _shakeController = shakeController,
@@ -1139,6 +1157,7 @@ class CreateTaskWidget extends StatelessWidget {
   final List<TextEditingController> subtaskTextEditingController;
   final QueryDocumentSnapshot<Todo>? firestoreData;
   final NotificationsController notificationsController;
+  final int? existingNotificationID;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -1147,6 +1166,7 @@ class CreateTaskWidget extends StatelessWidget {
           onPressed: () async {
             if (todoDescriptionController.text.isEmpty) {
               _shakeController.shake();
+
               Vibrate.feedback(FeedbackType.error);
               return;
             }
@@ -1162,184 +1182,74 @@ class CreateTaskWidget extends StatelessWidget {
                 });
               }
             }
+            if (!tasksController.todoOpenedFromTasksScreen.value!) {
+              //generate new random id and assign it to todo
+              int uniqueID = notificationsController.createUniqueID(2147483645);
+              Todo newTodo = Todo(
+                description: todoDescriptionController.text,
+                categoryReference:
+                    categoriesController.selectedCategoryID.value,
+                todoDate: tasksController.dateSelected.value
+                    ? Timestamp.fromDate(tasksController.date.value!)
+                    : null,
+                isDone: false,
+                notes:
+                    notesController.text.isEmpty ? null : notesController.text,
+                todoTime: tasksController.timeSelected.value
+                    ? Timestamp.fromDate(tasksController.time.value!)
+                    : null,
+                subTodos: finalListWithSubTodos,
+                uniqueNotificationID: tasksController.dateSelected.value ||
+                        tasksController.timeSelected.value
+                    ? uniqueID
+                    : null,
+              );
+              databaseController.addTodo(newTodo);
+              //now you can schedule notifications here with a random id
 
-            //generate new random id and assign it to todo
-            int uniqueID = notificationsController.createUniqueID(2147483645);
-            Todo newTodo = Todo(
-              description: todoDescriptionController.text,
-              categoryReference: categoriesController.selectedCategoryID.value,
-              todoDate: tasksController.dateSelected.value
-                  ? Timestamp.fromDate(tasksController.date.value!)
-                  : null,
-              isDone: false,
-              notes: notesController.text.isEmpty ? null : notesController.text,
-              todoTime: tasksController.timeSelected.value
-                  ? Timestamp.fromDate(tasksController.time.value!)
-                  : null,
-              subTodos: finalListWithSubTodos,
-              uniqueNotificationID: uniqueID,
-            );
-
-            tasksController.todoOpenedFromTasksScreen.value!
-                ? databaseController.updateTodo(
-                    firestoreData!,
-                    {
-                      'description': todoDescriptionController.text,
-                      'day': tasksController.dateSelected.value
-                          ? Timestamp.fromDate(tasksController.date.value!)
-                          : null,
-                      'time': tasksController.timeSelected.value
-                          ? Timestamp.fromDate(tasksController.time.value!)
-                          : null,
-                      'note': notesController.text.isEmpty
-                          ? null
-                          : notesController.text,
-                      'category': categoriesController.selectedCategoryID.value,
-                      'isDone': false,
-                      'subtodos': finalListWithSubTodos,
-                    },
-                  )
-                : databaseController.addTodo(newTodo);
-
-            //now you can safely schedule notifications here with a random id
-            //shchedule notification if date is selected and time is selected
-            if (tasksController.dateSelected.value &&
-                tasksController.date.value != null &&
-                tasksController.timeSelected.value &&
-                tasksController.time.value != null) {
-              var scheduledDateTime = DateTime(
-                  tasksController.date.value!.year,
-                  tasksController.date.value!.month,
-                  tasksController.date.value!.day,
-                  tasksController.time.value!.hour,
-                  tasksController.time.value!.minute,
-                  0,
-                  0,
-                  0);
-
-              //cancel pending notifications
-
-              for (var i = 1;
-                  i <= notificationsController.amountOfRepeats.value;
+              await scheduleNotifications(uniqueID);
+            } else {
+              int? uniqueID;
+              //cancel pending notifications for existing todo if there are any
+              for (var i = 0;
+                  i < notificationsController.amountOfRepeats.value;
                   i++) {
-                if (i == 1) {
-                  notificationsController.cancelNotification(uniqueID);
-                }
-                if (notificationsController.amountOfRepeats.value > 1 &&
-                    i > 1) {
-                  notificationsController.cancelNotification(uniqueID + i);
+                if (existingNotificationID != null) {
+                  notificationsController
+                      .cancelNotification(existingNotificationID! + i);
+                } else if (existingNotificationID == null &&
+                    (tasksController.timeSelected.value ||
+                        tasksController.dateSelected.value)) {
+                  uniqueID = notificationsController.createUniqueID(2147483645);
                 }
               }
 
-              for (var i = 1;
-                  i <= notificationsController.amountOfRepeats.value;
-                  i++) {
-                if (notificationsController.amountOfRepeats.value > 1 &&
-                    i > 1) {
-                  var finalDateTime = scheduledDateTime.add(Duration(
-                      minutes:
-                          notificationsController.intervalOfRepeats.value));
-                  if (i > 1 && i < 3) {
-                    await notificationsController.showScheduledNotification(
-                      id: uniqueID + i,
-                      title: 'Task reminder',
-                      body: todoDescriptionController.text,
-                      scheduledTime: scheduledDateTime.add(
-                        Duration(
-                            minutes: notificationsController
-                                .intervalOfRepeats.value),
-                      ),
-                    );
-                  }
+              databaseController.updateTodo(
+                firestoreData!,
+                {
+                  'description': todoDescriptionController.text,
+                  'day': tasksController.dateSelected.value
+                      ? Timestamp.fromDate(tasksController.date.value!)
+                      : null,
+                  'time': tasksController.timeSelected.value
+                      ? Timestamp.fromDate(tasksController.time.value!)
+                      : null,
+                  'note': notesController.text.isEmpty
+                      ? null
+                      : notesController.text,
+                  'category': categoriesController.selectedCategoryID.value,
+                  'isDone': false,
+                  'subtodos': finalListWithSubTodos,
+                  'uniqueNotificationID': tasksController.dateSelected.value ||
+                          tasksController.timeSelected.value
+                      ? uniqueID ?? existingNotificationID
+                      : null,
+                },
+              );
 
-                  if (i == 3) {
-                    await notificationsController.showScheduledNotification(
-                      id: uniqueID + i,
-                      title: 'Task reminder',
-                      body: todoDescriptionController.text,
-                      scheduledTime: finalDateTime.add(
-                        Duration(
-                            minutes: notificationsController
-                                .intervalOfRepeats.value),
-                      ),
-                    );
-                  }
-                }
-              }
+              await scheduleNotifications(uniqueID ?? existingNotificationID);
             }
-            //schedule notofication if date is not selected and time is selected
-            if (!tasksController.dateSelected.value &&
-                tasksController.timeSelected.value &&
-                tasksController.time.value != null) {
-              var scheduledDateTime = DateTime(
-                  tasksController.time.value!.year,
-                  tasksController.time.value!.month,
-                  tasksController.time.value!.day,
-                  tasksController.time.value!.hour,
-                  tasksController.time.value!.minute,
-                  0,
-                  0,
-                  0);
 
-              //cancel pending notifications
-
-              for (var i = 1;
-                  i <= notificationsController.amountOfRepeats.value;
-                  i++) {
-                if (i == 1) {
-                  notificationsController.cancelNotification(uniqueID);
-                }
-                if (notificationsController.amountOfRepeats.value > 1 &&
-                    i > 1) {
-                  notificationsController.cancelNotification(uniqueID + i);
-                }
-              }
-
-              for (var i = 1;
-                  i <= notificationsController.amountOfRepeats.value;
-                  i++) {
-                if (i == 1) {
-                  await notificationsController.showScheduledNotification(
-                    id: uniqueID,
-                    title: 'Task reminder',
-                    body: todoDescriptionController.text,
-                    scheduledTime: scheduledDateTime,
-                  );
-                }
-
-                if (notificationsController.amountOfRepeats.value > 1 &&
-                    i > 1) {
-                  var finalDateTime = scheduledDateTime.add(Duration(
-                      minutes:
-                          notificationsController.intervalOfRepeats.value));
-                  if (i > 1 && i < 3) {
-                    await notificationsController.showScheduledNotification(
-                      id: uniqueID + i,
-                      title: 'Task reminder',
-                      body: todoDescriptionController.text,
-                      scheduledTime: scheduledDateTime.add(
-                        Duration(
-                            minutes: notificationsController
-                                .intervalOfRepeats.value),
-                      ),
-                    );
-                  }
-
-                  if (i == 3) {
-                    await notificationsController.showScheduledNotification(
-                      id: uniqueID + i,
-                      title: 'Task reminder',
-                      body: todoDescriptionController.text,
-                      scheduledTime: finalDateTime.add(
-                        Duration(
-                            minutes: notificationsController
-                                .intervalOfRepeats.value),
-                      ),
-                    );
-                  }
-                }
-              }
-            }
             Get.back();
           },
           child: tasksController.todoOpenedFromTasksScreen.value!
@@ -1362,5 +1272,72 @@ class CreateTaskWidget extends StatelessWidget {
                   ),
                 ),
         ));
+  }
+
+  Future scheduleNotifications(int? id) async {
+    if (id != null) {
+      //shchedule notification if date is selected and time is selected
+
+      if (tasksController.dateSelected.value &&
+          tasksController.date.value != null &&
+          tasksController.timeSelected.value &&
+          tasksController.time.value != null) {
+        var scheduledDateTime = DateTime(
+            tasksController.date.value!.year,
+            tasksController.date.value!.month,
+            tasksController.date.value!.day,
+            tasksController.time.value!.hour,
+            tasksController.time.value!.minute,
+            0,
+            0,
+            0);
+
+        for (var i = 0;
+            i < notificationsController.amountOfRepeats.value;
+            i++) {
+          //schedule all notifications
+          await notificationsController.showScheduledNotification(
+            id: id + i,
+            title: 'Task reminder',
+            body: todoDescriptionController.text,
+            scheduledTime: scheduledDateTime.add(
+              Duration(
+                  minutes: notificationsController.intervalOfRepeats.value * i),
+            ),
+          );
+        }
+      }
+      //schedule notofication if date is not selected and time is selected
+      if (!tasksController.dateSelected.value &&
+          tasksController.timeSelected.value &&
+          tasksController.time.value != null) {
+        var scheduledDateTime = DateTime(
+            tasksController.time.value!.year,
+            tasksController.time.value!.month,
+            tasksController.time.value!.day,
+            tasksController.time.value!.hour,
+            tasksController.time.value!.minute,
+            0,
+            0,
+            0);
+
+        for (var i = 0;
+            i < notificationsController.amountOfRepeats.value;
+            i++) {
+          //schedule all notifications
+          await notificationsController.showScheduledNotification(
+            id: id + i,
+            title: 'Task reminder',
+            body: todoDescriptionController.text,
+            scheduledTime: scheduledDateTime.add(
+              Duration(
+                  minutes: notificationsController.intervalOfRepeats.value * i),
+            ),
+          );
+        }
+      }
+    } else {
+      return;
+    }
   }
 }
